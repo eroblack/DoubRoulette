@@ -6,17 +6,15 @@
     <title>Eroblack Pro Precision</title>
     <style>
         :root {
-            --bg: #050505;
             --sunray: radial-gradient(circle, #8a1a2d 0%, #1a0005 100%);
             --gold: #d4af37;
             --silver: #ffffff;
-            --pointer-red: #ff3333;
         }
 
         body {
-            background-color: var(--bg);
+            background-color: #050505;
             color: var(--silver);
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -26,218 +24,183 @@
             overflow: hidden;
         }
 
-        /* Endikatè Pwofesyonèl */
+        .status-bar { margin-bottom: 25px; }
+
+        .bet-select {
+            background: #111; color: var(--gold); border: 2px solid var(--gold);
+            padding: 12px 20px; border-radius: 12px; font-weight: 900; font-size: 16px;
+            cursor: pointer; outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
         .watch-body {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 390px; height: 390px;
             background: linear-gradient(145deg, #222, #000);
-            border-radius: 50%;
-            padding: 10px;
-            border: 6px solid #111;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,255,255,0.05);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 50%; padding: 10px;
+            border: 5px solid #1a1a1a;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            display: flex; justify-content: center; align-items: center;
         }
 
         .dial-plate {
             position: relative;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: var(--sunray);
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%; overflow: hidden;
         }
 
-        /* Egwi Nimewo (Deyò) */
+        /* Egwi Rezilta Nimewo (Deyò) */
         .needle-outer {
-            position: absolute;
-            top: 2px; left: 50%;
+            position: absolute; top: 5px; left: 50%;
             transform: translateX(-50%);
-            width: 4px; height: 30px;
-            background: var(--silver);
-            z-index: 200;
-            box-shadow: 0 0 15px rgba(255,255,255,0.8);
-            border-radius: 0 0 4px 4px;
+            width: 4px; height: 25px;
+            background: #fff; z-index: 200;
+            box-shadow: 0 0 15px #fff; border-radius: 2px;
         }
 
         /* Flèch Miltiplikatè (Mitan) */
         .needle-inner {
-            position: absolute;
-            top: 100px; left: 50%;
+            position: absolute; top: 85px; left: 50%;
             transform: translateX(-50%);
             width: 0; height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 15px solid var(--gold);
-            z-index: 200;
+            border-left: 8px solid transparent; border-right: 8px solid transparent;
+            border-top: 15px solid var(--gold); z-index: 200;
             filter: drop-shadow(0 0 5px var(--gold));
         }
 
         .center-display {
-            position: absolute;
-            z-index: 210;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85px; height: 85px;
-            background: rgba(0,0,0,0.95);
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 30px rgba(0,0,0,1);
+            position: absolute; z-index: 210;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            background: rgba(0,0,0,0.95); border: 2px solid var(--gold);
+            border-radius: 50%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; backdrop-filter: blur(10px);
         }
 
-        .res-val { font-size: 28px; font-weight: 900; color: #fff; line-height: 1; }
-        .res-label { font-size: 9px; color: var(--gold); font-weight: 800; letter-spacing: 2px; margin-bottom: 5px; }
+        .res-val { font-size: 26px; font-weight: 900; color: #fff; }
+        .res-label { font-size: 10px; color: var(--gold); font-weight: 800; letter-spacing: 1px; }
 
         .wheel-container {
-            position: absolute;
-            width: 400px; height: 400px;
-            transition: transform 8s cubic-bezier(0.2, 0, 0.1, 1);
+            position: absolute; width: 390px; height: 390px;
+            transition: transform 8s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
         .number-slot {
-            position: absolute;
-            left: 50%; top: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: absolute; left: 50%; top: 50%;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* Stil Chif Deyò */
-        .num-outer { font-size: 16px; font-weight: 900; color: #fff; }
+        .num-outer { font-size: 16px; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
 
-        /* Stil Chif Mitan - ULTRA KLÈ */
+        /* Chif Mitan - Ultra Klè */
         .num-inner {
-            font-size: 20px;
-            font-weight: 1000;
-            color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            letter-spacing: -1px;
+            font-size: 18px; font-weight: 1000;
+            color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .btn-play {
-            margin-top: 50px;
-            background: var(--silver);
-            color: #000;
-            border: none;
-            padding: 20px 90px;
-            border-radius: 60px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-weight: 950;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+            margin-top: 40px; background: #fff; color: #000;
+            border: none; padding: 18px 80px; border-radius: 50px;
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 950;
+            cursor: pointer; transition: 0.3s;
         }
 
-        .btn-play:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255,255,255,0.2); }
-        .btn-play:disabled { background: #222; color: #555; transform: none; }
+        .btn-play:disabled { background: #333; color: #666; }
 
-        /* Modal Pwofesyonèl */
+        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
         }
 
         .modal-content {
-            background: #0a0a0a; padding: 40px; border-radius: 24px;
-            border: 1px solid #333; text-align: center; width: 300px;
+            background: #0a0a0a; padding: 30px; border-radius: 20px;
+            border: 2px solid var(--gold); text-align: center; width: 280px;
         }
 
         .modal-btn {
-            background: var(--gold); border: none; padding: 15px; width: 100%;
-            border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 20px;
-        }
-
-        .bet-select {
-            background: #111; color: var(--gold); border: 2px solid #333;
-            padding: 12px; border-radius: 12px; font-weight: 900; margin-bottom: 25px;
+            background: var(--gold); border: none; padding: 12px; width: 100%;
+            border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <select id="betNumber" class="bet-select"></select>
+    <div class="status-bar">
+        <select id="betNumber" class="bet-select"></select>
+    </div>
 
     <div class="watch-body">
         <div class="needle-outer"></div>
         <div class="needle-inner"></div>
         
         <div class="center-display">
-            <span class="res-label">RESULT</span>
+            <span class="res-label">REZILTA</span>
             <span id="digitalDisplay" class="res-val">--</span>
         </div>
 
         <div class="dial-plate">
             <div id="wheelO" class="wheel-container"></div>
-            <div id="wheelI" class="wheel-container" style="width: 200px; height: 200px; left: 100px; top: 100px;"></div>
+            <div id="wheelI" class="wheel-container" style="width: 220px; height: 220px; left: 85px; top: 85px;"></div>
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="openPayment()">Vire Roulèt</button>
+    <button class="btn-play" id="spinBtn" onclick="openPayment()">Vire (5 HTG)</button>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <h2 style="color:var(--gold); margin-top:0">PWOTOKÒL</h2>
-            <p>Debite 5 HTG sou kont ou pou tranzaksyon sa a?</p>
-            <button class="modal-btn" onclick="processPayment()">KONFIME PEMAN</button>
-            <button class="modal-btn" style="background:#222; color:#fff" onclick="closeModal('payModal')">ANILE</button>
+            <h3 style="color:var(--gold)">KONFIME</h3>
+            <p>Peye 5 HTG pou vire?</p>
+            <button class="modal-btn" onclick="processPayment()">WI, PEYE</button>
+            <button class="modal-btn" style="background:#333; color:#fff" onclick="closeModal('payModal')">ANILE</button>
         </div>
     </div>
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
             <h2 id="resTitle" style="margin-top:0"></h2>
-            <p id="resMsg"></p>
-            <button class="modal-btn" onclick="closeModal('resultModal')">KONTINYE</button>
+            <p id="resMsg" style="font-size: 18px;"></p>
+            <button class="modal-btn" onclick="closeModal('resultModal')">OK</button>
         </div>
     </div>
 
     <script>
+        const betCost = 5;
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
-        const multiplierOrder = [2, 5, 1, 10, 2, 1, 5, 1, 20, 2, 5, 1, 10, 2, 50, 1, 2, 5, 1, 10, 2, 5, 1, 5, 2, 10, 1, 5, 2, 1, 10, 2];
+        const multipliers = [1, 5, 2, 10, 1, 2, 5, 1, 20, 2, 1, 5, 1, 10, 2, 50, 1, 2, 5, 1, 10, 2, 1, 5, 2, 10, 1, 20, 2, 5, 1, 10];
         
         const total = ordinaryOrder.length;
         const deg = 360 / total;
 
-        // Inisyalizasyon
         const select = document.getElementById('betNumber');
         for(let i=0; i<37; i++) {
             let opt = document.createElement('option');
-            opt.value = i; opt.innerText = "BET ON: " + (i < 10 ? '0'+i : i);
+            opt.value = i; opt.innerText = "PARI SOU: " + (i < 10 ? '0'+i : i);
             select.appendChild(opt);
         }
 
-        function createWheel() {
-            for(let i = 0; i < total; i++) {
-                // Wou Deyò
-                let elO = document.createElement('div');
-                elO.className = 'number-slot num-outer';
-                let radO = (i * deg - 90) * (Math.PI / 180);
-                let xO = 172 * Math.cos(radO);
-                let yO = 172 * Math.sin(radO);
-                elO.innerText = ordinaryOrder[i];
-                elO.style.transform = `translate(calc(-50% + ${xO}px), calc(-50% + ${yO}px)) rotate(${i * deg}deg)`;
-                document.getElementById('wheelO').appendChild(elO);
+        // Jenere Wou
+        for(let i = 0; i < total; i++) {
+            let angleRad = (i * deg - 90) * (Math.PI / 180);
+            
+            // Deyò (Nimewo)
+            let elO = document.createElement('div');
+            elO.className = 'number-slot num-outer';
+            let xO = 168 * Math.cos(angleRad);
+            let yO = 168 * Math.sin(angleRad);
+            elO.innerText = ordinaryOrder[i];
+            elO.style.transform = `translate(calc(-50% + ${xO}px), calc(-50% + ${yO}px)) rotate(${i * deg}deg)`;
+            document.getElementById('wheelO').appendChild(elO);
 
-                // Wou Mitan
-                let elI = document.createElement('div');
-                elI.className = 'number-slot num-inner';
-                let radI = (i * deg - 90) * (Math.PI / 180);
-                let xI = 75 * Math.cos(radI);
-                let yI = 75 * Math.sin(radI);
-                elI.innerText = 'x' + multiplierOrder[i];
-                elI.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * deg}deg)`;
-                document.getElementById('wheelI').appendChild(elI);
-            }
+            // Mitan (Miltiplikatè)
+            let elI = document.createElement('div');
+            elI.className = 'number-slot num-inner';
+            let xI = 75 * Math.cos(angleRad);
+            let yI = 75 * Math.sin(angleRad);
+            elI.innerText = 'x' + multipliers[i];
+            elI.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * deg}deg)`;
+            document.getElementById('wheelI').appendChild(elI);
         }
-        createWheel();
 
         function openPayment() { document.getElementById('payModal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -247,36 +210,33 @@
             startProSpin();
         }
 
-        let currentRotO = 0;
-        let currentRotI = 0;
-
+        let rotO = 0; let rotI = 0;
         function startProSpin() {
-            const btn = document.getElementById('spinBtn');
-            btn.disabled = true;
+            document.getElementById('spinBtn').disabled = true;
             document.getElementById('digitalDisplay').innerText = "••";
 
             const winIdxO = Math.floor(Math.random() * total);
             const winIdxI = Math.floor(Math.random() * total);
 
-            // Kalkil wotasyon pou presizyon
-            currentRotO += (3600 + (360 - (winIdxO * deg)));
-            currentRotI -= (3600 + (winIdxI * deg));
+            rotO += 3600 + (360 - (winIdxO * deg));
+            rotI -= (3600 + (winIdxI * deg));
 
-            document.getElementById('wheelO').style.transform = `rotate(${currentRotO}deg)`;
-            document.getElementById('wheelI').style.transform = `rotate(${currentRotI}deg)`;
+            document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
+            document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdxO];
-                const winMult = multiplierOrder[winIdxI];
-                const bet = parseInt(document.getElementById('betNumber').value);
+                const winMult = multipliers[winIdxI];
+                const choice = parseInt(document.getElementById('betNumber').value);
+                
+                document.getElementById('digitalDisplay').innerText = winNum;
+                document.getElementById('spinBtn').disabled = false;
 
-                document.getElementById('digitalDisplay').innerText = winNum < 10 ? '0'+winNum : winNum;
-                btn.disabled = false;
-
-                if(winNum === bet) {
-                    showResult("BRAVO!", `Ou jwenn <b>${winNum}</b> ak yon miltiplikatè <b>x${winMult}</b>!<br><br><span style="color:var(--gold)">KADÒ: ${5 * winMult} HTG</span>`);
+                if(winNum === choice) {
+                    let pwi = betCost * winMult;
+                    showResult("OU GENYEN!", `Nimewo: <b>${winNum}</b><br>Miltiplikatè: <b>x${winMult}</b><br><br><span style="color:var(--gold)">OU RECEVWA ${pwi} HTG!</span>`);
                 } else {
-                    showResult("ESEYE ANKÒ", `Nimewo a se te <b>${winNum}</b>.<br>Miltiplikatè a te <b>x${winMult}</b>.`);
+                    showResult("OU PÈDI", `Nimewo a te <b>${winNum}</b>.<br>Miltiplikatè a te <b>x${winMult}</b>.`);
                 }
             }, 8200);
         }
