@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Pro Precision</title>
+    <title>Eroblack Pro - Precision Absolute</title>
     <style>
         :root {
             --sunray: radial-gradient(circle, #8a1a2d 0%, #1a0005 100%);
@@ -29,7 +29,7 @@
         .bet-select {
             background: #111; color: var(--gold); border: 2px solid var(--gold);
             padding: 12px 20px; border-radius: 12px; font-weight: 900; font-size: 16px;
-            cursor: pointer; outline: none; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            cursor: pointer; outline: none;
         }
 
         .watch-body {
@@ -49,23 +49,22 @@
             border-radius: 50%; overflow: hidden;
         }
 
-        /* Egwi Rezilta Nimewo (Deyò) */
+        /* Egwi pou Nimewo a (Deyò) */
         .needle-outer {
-            position: absolute; top: 5px; left: 50%;
+            position: absolute; top: 2px; left: 50%;
             transform: translateX(-50%);
-            width: 4px; height: 25px;
+            width: 4px; height: 30px;
             background: #fff; z-index: 200;
             box-shadow: 0 0 15px #fff; border-radius: 2px;
         }
 
-        /* Flèch Miltiplikatè (Mitan) */
+        /* Flèch pou Miltiplikatè a (Mitan) */
         .needle-inner {
-            position: absolute; top: 85px; left: 50%;
+            position: absolute; top: 105px; left: 50%;
             transform: translateX(-50%);
             width: 0; height: 0;
             border-left: 8px solid transparent; border-right: 8px solid transparent;
             border-top: 15px solid var(--gold); z-index: 200;
-            filter: drop-shadow(0 0 5px var(--gold));
         }
 
         .center-display {
@@ -74,15 +73,15 @@
             width: 80px; height: 80px;
             background: rgba(0,0,0,0.95); border: 2px solid var(--gold);
             border-radius: 50%; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; backdrop-filter: blur(10px);
+            justify-content: center; align-items: center;
         }
 
-        .res-val { font-size: 26px; font-weight: 900; color: #fff; }
+        .res-val { font-size: 28px; font-weight: 900; color: #fff; }
         .res-label { font-size: 10px; color: var(--gold); font-weight: 800; letter-spacing: 1px; }
 
         .wheel-container {
             position: absolute; width: 390px; height: 390px;
-            transition: transform 8s cubic-bezier(0.15, 0, 0.15, 1);
+            transition: transform 8s cubic-bezier(0.2, 0, 0, 1);
         }
 
         .number-slot {
@@ -90,24 +89,18 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        .num-outer { font-size: 16px; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
-
-        /* Chif Mitan - Ultra Klè */
-        .num-inner {
-            font-size: 18px; font-weight: 1000;
-            color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
+        .num-outer { font-size: 17px; font-weight: 900; color: #fff; }
+        .num-inner { font-size: 20px; font-weight: 1000; color: #ffffff; text-shadow: 2px 2px 4px #000; }
 
         .btn-play {
             margin-top: 40px; background: #fff; color: #000;
             border: none; padding: 18px 80px; border-radius: 50px;
             text-transform: uppercase; letter-spacing: 4px; font-weight: 950;
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer;
         }
 
         .btn-play:disabled { background: #333; color: #666; }
 
-        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
@@ -135,13 +128,13 @@
         <div class="needle-inner"></div>
         
         <div class="center-display">
-            <span class="res-label">REZILTA</span>
+            <span class="res-label">RESULT</span>
             <span id="digitalDisplay" class="res-val">--</span>
         </div>
 
         <div class="dial-plate">
             <div id="wheelO" class="wheel-container"></div>
-            <div id="wheelI" class="wheel-container" style="width: 220px; height: 220px; left: 85px; top: 85px;"></div>
+            <div id="wheelI" class="wheel-container" style="width: 200px; height: 200px; left: 95px; top: 95px;"></div>
         </div>
     </div>
 
@@ -150,8 +143,8 @@
     <div id="payModal" class="modal">
         <div class="modal-content">
             <h3 style="color:var(--gold)">KONFIME</h3>
-            <p>Peye 5 HTG pou vire?</p>
-            <button class="modal-btn" onclick="processPayment()">WI, PEYE</button>
+            <p>Debite 5 HTG pou vire?</p>
+            <button class="modal-btn" onclick="processPayment()">KONFIME</button>
             <button class="modal-btn" style="background:#333; color:#fff" onclick="closeModal('payModal')">ANILE</button>
         </div>
     </div>
@@ -170,8 +163,9 @@
         const multipliers = [1, 5, 2, 10, 1, 2, 5, 1, 20, 2, 1, 5, 1, 10, 2, 50, 1, 2, 5, 1, 10, 2, 1, 5, 2, 10, 1, 20, 2, 5, 1, 10];
         
         const total = ordinaryOrder.length;
-        const deg = 360 / total;
+        const degStep = 360 / total;
 
+        // Inisyalize Select
         const select = document.getElementById('betNumber');
         for(let i=0; i<37; i++) {
             let opt = document.createElement('option');
@@ -179,64 +173,69 @@
             select.appendChild(opt);
         }
 
-        // Jenere Wou
-        for(let i = 0; i < total; i++) {
-            let angleRad = (i * deg - 90) * (Math.PI / 180);
-            
-            // Deyò (Nimewo)
-            let elO = document.createElement('div');
-            elO.className = 'number-slot num-outer';
-            let xO = 168 * Math.cos(angleRad);
-            let yO = 168 * Math.sin(angleRad);
-            elO.innerText = ordinaryOrder[i];
-            elO.style.transform = `translate(calc(-50% + ${xO}px), calc(-50% + ${yO}px)) rotate(${i * deg}deg)`;
-            document.getElementById('wheelO').appendChild(elO);
+        // Konstwi Wou yo
+        function initWheels() {
+            for(let i = 0; i < total; i++) {
+                let angleRad = (i * degStep - 90) * (Math.PI / 180);
+                
+                // Deyò (Nimewo)
+                let elO = document.createElement('div');
+                elO.className = 'number-slot num-outer';
+                let xO = 170 * Math.cos(angleRad);
+                let yO = 170 * Math.sin(angleRad);
+                elO.innerText = ordinaryOrder[i];
+                elO.style.transform = `translate(calc(-50% + ${xO}px), calc(-50% + ${yO}px)) rotate(${i * degStep}deg)`;
+                document.getElementById('wheelO').appendChild(elO);
 
-            // Mitan (Miltiplikatè)
-            let elI = document.createElement('div');
-            elI.className = 'number-slot num-inner';
-            let xI = 75 * Math.cos(angleRad);
-            let yI = 75 * Math.sin(angleRad);
-            elI.innerText = 'x' + multipliers[i];
-            elI.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * deg}deg)`;
-            document.getElementById('wheelI').appendChild(elI);
+                // Mitan (Miltiplikatè san "x")
+                let elI = document.createElement('div');
+                elI.className = 'number-slot num-inner';
+                let xI = 70 * Math.cos(angleRad);
+                let yI = 70 * Math.sin(angleRad);
+                elI.innerText = multipliers[i];
+                elI.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * degStep}deg)`;
+                document.getElementById('wheelI').appendChild(elI);
+            }
         }
+        initWheels();
 
         function openPayment() { document.getElementById('payModal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function processPayment() {
             closeModal('payModal');
-            startProSpin();
+            startPrecisionSpin();
         }
 
         let rotO = 0; let rotI = 0;
-        function startProSpin() {
+        function startPrecisionSpin() {
             document.getElementById('spinBtn').disabled = true;
             document.getElementById('digitalDisplay').innerText = "••";
 
+            // Chwazi rezilta yo avan wou a vire pou presizyon 100%
             const winIdxO = Math.floor(Math.random() * total);
             const winIdxI = Math.floor(Math.random() * total);
 
-            rotO += 3600 + (360 - (winIdxO * deg));
-            rotI -= (3600 + (winIdxI * deg));
+            // Kalkil wotasyon pou egwi a tonbe pil sou chif la
+            rotO += 3600 + (360 - (winIdxO * degStep));
+            rotI -= (3600 + (winIdxI * degStep));
 
             document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
             document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdxO];
-                const winMult = multipliers[winIdxI];
+                const winMultValue = multipliers[winIdxI];
                 const choice = parseInt(document.getElementById('betNumber').value);
                 
                 document.getElementById('digitalDisplay').innerText = winNum;
                 document.getElementById('spinBtn').disabled = false;
 
                 if(winNum === choice) {
-                    let pwi = betCost * winMult;
-                    showResult("OU GENYEN!", `Nimewo: <b>${winNum}</b><br>Miltiplikatè: <b>x${winMult}</b><br><br><span style="color:var(--gold)">OU RECEVWA ${pwi} HTG!</span>`);
+                    let pwi = betCost * winMultValue;
+                    showResult("OU GENYEN!", `Nimewo: <b>${winNum}</b><br>Miltiplikatè: <b>${winMultValue}</b><br><br><span style="color:var(--gold)">KADÒ: ${pwi} HTG</span>`);
                 } else {
-                    showResult("OU PÈDI", `Nimewo a te <b>${winNum}</b>.<br>Miltiplikatè a te <b>x${winMult}</b>.`);
+                    showResult("DOMAJ", `Nimewo a te <b>${winNum}</b>.<br>Miltiplikatè a te <b>${winMultValue}</b>.`);
                 }
             }, 8200);
         }
