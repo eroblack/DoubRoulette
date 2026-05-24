@@ -3,78 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brandson Swa Edition</title>
+    <title>Eroblack Clean Mechanic</title>
     <style>
         body {
             background: #f4f1ea;
-            color: #4a4a4a;
-            font-family: 'Arial', sans-serif;
+            color: #333;
+            font-family: 'Segoe UI', Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 10px;
         }
 
-        .main-wrapper {
-            position: relative;
-            width: 380px;
-            margin: 30px auto;
-        }
-
-        /* Banner sou kote yo */
-        .side-banner {
-            position: absolute;
-            top: 50%;
-            width: 50px;
-            height: 35px;
-            background: #4a4a4a;
-            color: #b5a36d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            z-index: 5;
-            transform: translateY(-50%);
-            font-size: 14px;
-        }
-        .left-b { left: -10px; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15% 50%); }
-        .right-b { right: -10px; clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%); }
-
         .roulette-container {
             position: relative;
-            width: 350px;
-            height: 350px;
-            margin: 0 auto;
+            width: 360px;
+            height: 360px;
+            margin: 40px auto;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 2px solid #b5a36d;
+            border: 4px solid #b5a36d;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
-        /* Wou Kawotchou (Outer) */
+        /* Wou Deyò (Kawotchou Nwa) */
         .wheel-outer {
             position: absolute;
             width: 330px;
             height: 330px;
             border-radius: 50%;
-            background: #4a4a4a;
-            border: 12px solid #333;
+            background: #2b2b2b;
+            border: 10px solid #1a1a1a;
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
 
-        /* Wou Jant Lò (Inner) */
+        /* Wou Mitan (Jant Lò) */
         .wheel-inner {
             position: absolute;
-            width: 180px;
-            height: 180px;
+            width: 190px;
+            height: 190px;
             border-radius: 50%;
             background: #b5a36d;
-            border: 5px solid #4a4a4a;
+            border: 5px solid #2b2b2b;
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
         }
 
-        /* Stil Chif Swa yo */
         .number {
             position: absolute;
             left: 50%;
@@ -85,112 +60,121 @@
             font-weight: bold;
         }
 
-        /* Chif blan sou kawotchou nwa */
+        /* Chif blan sou wou nwa - Style Normal */
         .outer-num {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
+            color: #ffffff;
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
         }
 
-        /* Chif nwa sou jant lò */
+        /* Chif nwa sou jant lò - Style Normal */
         .inner-num {
-            color: #333;
-            font-size: 12px;
-        }
-
-        .brand-text {
-            position: absolute;
-            width: 100%;
-            color: white;
-            font-size: 18px;
-            font-weight: 900;
-            letter-spacing: 5px;
-            z-index: 3;
-            text-shadow: 1px 1px 2px #000;
+            color: #1a1a1a;
+            font-size: 13px;
+            width: 25px;
+            height: 25px;
         }
 
         .indicator {
             position: absolute;
-            top: -20px;
+            top: -25px;
             z-index: 20;
-            color: #4a4a4a;
-            font-size: 30px;
+            color: #2b2b2b;
+            font-size: 35px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+
+        .controls { margin-top: 30px; }
+
+        input {
+            padding: 12px;
+            border: 2px solid #b5a36d;
+            background: white;
+            border-radius: 8px;
+            width: 60px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
         }
 
         button {
-            background: #4a4a4a;
+            background: #2b2b2b;
             color: #b5a36d;
-            padding: 12px 40px;
-            border: 2px solid #b5a36d;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 30px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        #status {
             margin-top: 25px;
-            border-radius: 4px;
+            font-size: 18px;
+            color: #2b2b2b;
+            min-height: 1.5em;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-wrapper">
-        <div class="side-banner left-b">20</div>
-        <div class="side-banner right-b">20</div>
-
-        <div class="roulette-container">
-            <div class="indicator">▼</div>
-            
-            <div class="brand-text" style="top: 40px;">BRANDSON</div>
-            <div class="brand-text" style="bottom: 40px; font-size: 12px; letter-spacing: 2px;">CAR SERVICE</div>
-
-            <div class="wheel-outer" id="wheelO"></div>
-            <div class="wheel-inner" id="wheelI"></div>
-        </div>
+    <div class="roulette-container">
+        <div class="indicator">▼</div>
+        <div class="wheel-outer" id="wheelO"></div>
+        <div class="wheel-inner" id="wheelI"></div>
     </div>
 
     <div class="controls">
-        <input type="number" id="chwa" value="7" style="padding:10px; border:1px solid #b5a36d; width:60px; text-align:center;">
+        <input type="number" id="chwa" value="7" min="1" max="32">
         <br>
-        <button onclick="vireSwa()">DEMARE SÈVIS</button>
+        <button onclick="vireMekanikSwa()">VIRE ROULETTE LA</button>
     </div>
 
-    <div id="status" style="margin-top:20px; font-weight:bold; text-transform: uppercase; font-size: 14px;"></div>
+    <div id="status"></div>
 
     <script>
         const total = 32;
         const deg = 360 / total;
 
-        // Mete Chif sou Kawotchou (Swa)
+        // Jenere tout 32 chif sou wou deyò a (Dwat epi Normal)
         for(let i = 0; i < total; i++) {
             let n = document.createElement('div');
             n.className = 'number outer-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 125 * Math.cos(angleRad);
-            let y = 125 * Math.sin(angleRad);
-            // Nou sèlman mete chif nan espas kote "BRANDSON" pa ye a
-            if (i > 3 && i < 12 || i > 20 && i < 28) { 
-                n.innerText = i + 1;
-            } else {
-                n.innerText = "•"; // Ti pwen pou espas yo rete swa
-            }
-            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
+            let x = 140 * Math.cos(angleRad);
+            let y = 140 * Math.sin(angleRad);
+            n.innerText = i + 1;
+            // rotate(0deg) kenbe chif yo dwat pou je a
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
             document.getElementById('wheelO').appendChild(n);
         }
 
-        // Mete Chif sou Jant Lò (Swa)
+        // Jenere tout chif sou wou mitan an (Dwat epi Normal)
         for(let i = 0; i < total; i++) {
             let n = document.createElement('div');
             n.className = 'number inner-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 70 * Math.cos(angleRad);
-            let y = 70 * Math.sin(angleRad);
+            let x = 75 * Math.cos(angleRad);
+            let y = 75 * Math.sin(angleRad);
             n.innerText = i;
-            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
             document.getElementById('wheelI').appendChild(n);
         }
 
         let curO = 0; let curI = 0;
 
-        function vireSwa() {
+        function vireMekanikSwa() {
+            const status = document.getElementById('status');
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
+
+            status.innerText = "Roulette a ap vire...";
 
             curO += 1440 + (360 - (resO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${curO}deg)`;
@@ -200,10 +184,9 @@
                 document.getElementById('wheelI').style.transform = `rotate(${curI}deg)`;
                 
                 setTimeout(() => {
-                    document.getElementById('status').innerHTML = 
-                    `Sèvis fini: <span style="color:#b5a36d">Chif ${resO + 1}</span> | Miltiplikatè: <span style="color:#333">X${resI}</span>`;
+                    status.innerHTML = `REZILTA: <b>${resO + 1}</b> | MILTIPLIKATÈ: <b>X${resI}</b>`;
                 }, 5000);
-            }, 1000);
+            }, 800);
         }
     </script>
 </body>
