@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Pro - Precision Absolute</title>
+    <title>Eroblack Pro - Ultimate Precision</title>
     <style>
         :root {
             --sunray: radial-gradient(circle, #8a1a2d 0%, #1a0005 100%);
             --gold: #d4af37;
             --silver: #ffffff;
+            --active-green: #2ecc71;
         }
 
         body {
@@ -17,28 +18,51 @@
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            padding: 20px;
         }
 
-        .status-bar { margin-bottom: 25px; }
+        /* Griy pou chwazi nimewo */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 380px;
+            background: #111;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
 
-        .bet-select {
-            background: #111; color: var(--gold); border: 2px solid var(--gold);
-            padding: 12px 20px; border-radius: 12px; font-weight: 900; font-size: 16px;
-            cursor: pointer; outline: none;
+        .num-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .num-btn.selected {
+            background: var(--gold);
+            color: #000;
+            border-color: #fff;
+            transform: scale(1.1);
         }
 
         .watch-body {
             position: relative;
-            width: 390px; height: 390px;
+            width: 380px; height: 380px;
             background: linear-gradient(145deg, #222, #000);
-            border-radius: 50%; padding: 10px;
-            border: 5px solid #1a1a1a;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            border-radius: 50%; padding: 8px;
+            border: 6px solid #1a1a1a;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             display: flex; justify-content: center; align-items: center;
         }
 
@@ -49,39 +73,36 @@
             border-radius: 50%; overflow: hidden;
         }
 
-        /* Egwi pou Nimewo a (Deyò) */
         .needle-outer {
-            position: absolute; top: 2px; left: 50%;
+            position: absolute; top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 4px; height: 30px;
+            width: 4px; height: 32px;
             background: #fff; z-index: 200;
-            box-shadow: 0 0 15px #fff; border-radius: 2px;
+            box-shadow: 0 0 15px #fff;
         }
 
-        /* Flèch pou Miltiplikatè a (Mitan) */
         .needle-inner {
-            position: absolute; top: 105px; left: 50%;
+            position: absolute; top: 100px; left: 50%;
             transform: translateX(-50%);
             width: 0; height: 0;
-            border-left: 8px solid transparent; border-right: 8px solid transparent;
-            border-top: 15px solid var(--gold); z-index: 200;
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-top: 18px solid var(--gold); z-index: 200;
         }
 
         .center-display {
             position: absolute; z-index: 210;
             top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80px; height: 80px;
+            width: 75px; height: 75px;
             background: rgba(0,0,0,0.95); border: 2px solid var(--gold);
             border-radius: 50%; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
 
-        .res-val { font-size: 28px; font-weight: 900; color: #fff; }
-        .res-label { font-size: 10px; color: var(--gold); font-weight: 800; letter-spacing: 1px; }
+        .res-val { font-size: 30px; font-weight: 900; color: #fff; }
 
         .wheel-container {
-            position: absolute; width: 390px; height: 390px;
-            transition: transform 8s cubic-bezier(0.2, 0, 0, 1);
+            position: absolute; width: 100%; height: 100%;
+            transition: transform 8s cubic-bezier(0.15, 0, 0.05, 1);
         }
 
         .number-slot {
@@ -89,153 +110,150 @@
             display: flex; justify-content: center; align-items: center;
         }
 
-        .num-outer { font-size: 17px; font-weight: 900; color: #fff; }
-        .num-inner { font-size: 20px; font-weight: 1000; color: #ffffff; text-shadow: 2px 2px 4px #000; }
+        .num-outer { font-size: 16px; font-weight: 900; color: #fff; }
+        .num-inner { font-size: 22px; font-weight: 1000; color: #fff; text-shadow: 2px 2px 4px #000; }
 
         .btn-play {
-            margin-top: 40px; background: #fff; color: #000;
+            margin-top: 30px; background: #fff; color: #000;
             border: none; padding: 18px 80px; border-radius: 50px;
             text-transform: uppercase; letter-spacing: 4px; font-weight: 950;
-            cursor: pointer;
+            cursor: pointer; width: 100%; max-width: 380px;
         }
 
-        .btn-play:disabled { background: #333; color: #666; }
+        .btn-play:disabled { background: #333; color: #666; cursor: not-allowed; }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center;
         }
 
         .modal-content {
-            background: #0a0a0a; padding: 30px; border-radius: 20px;
+            background: #111; padding: 30px; border-radius: 24px;
             border: 2px solid var(--gold); text-align: center; width: 280px;
         }
 
         .modal-btn {
-            background: var(--gold); border: none; padding: 12px; width: 100%;
-            border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 15px;
+            background: var(--gold); border: none; padding: 14px; width: 100%;
+            border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <div class="status-bar">
-        <select id="betNumber" class="bet-select"></select>
-    </div>
+    <p style="margin: 0 0 10px 0; font-weight: 800; color: var(--gold);">CHWAZI NIMEWO OU :</p>
+    <div class="selection-grid" id="grid"></div>
 
     <div class="watch-body">
         <div class="needle-outer"></div>
         <div class="needle-inner"></div>
         
         <div class="center-display">
-            <span class="res-label">RESULT</span>
             <span id="digitalDisplay" class="res-val">--</span>
         </div>
 
         <div class="dial-plate">
             <div id="wheelO" class="wheel-container"></div>
-            <div id="wheelI" class="wheel-container" style="width: 200px; height: 200px; left: 95px; top: 95px;"></div>
+            <div id="wheelI" class="wheel-container" style="width: 210px; height: 210px; left: 85px; top: 85px;"></div>
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="openPayment()">Vire (5 HTG)</button>
+    <button class="btn-play" id="spinBtn" onclick="openPayment()" disabled>Vire (5 HTG)</button>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
             <h3 style="color:var(--gold)">KONFIME</h3>
-            <p>Debite 5 HTG pou vire?</p>
-            <button class="modal-btn" onclick="processPayment()">KONFIME</button>
+            <p>Peye 5 HTG pou vire?</p>
+            <button class="modal-btn" onclick="processPayment()">WI, PEYE</button>
             <button class="modal-btn" style="background:#333; color:#fff" onclick="closeModal('payModal')">ANILE</button>
         </div>
     </div>
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h2 id="resTitle" style="margin-top:0"></h2>
+            <h2 id="resTitle"></h2>
             <p id="resMsg" style="font-size: 18px;"></p>
             <button class="modal-btn" onclick="closeModal('resultModal')">OK</button>
         </div>
     </div>
 
     <script>
-        const betCost = 5;
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
         const multipliers = [1, 5, 2, 10, 1, 2, 5, 1, 20, 2, 1, 5, 1, 10, 2, 50, 1, 2, 5, 1, 10, 2, 1, 5, 2, 10, 1, 20, 2, 5, 1, 10];
-        
         const total = ordinaryOrder.length;
         const degStep = 360 / total;
+        let selectedNum = null;
 
-        // Inisyalize Select
-        const select = document.getElementById('betNumber');
-        for(let i=0; i<37; i++) {
-            let opt = document.createElement('option');
-            opt.value = i; opt.innerText = "PARI SOU: " + (i < 10 ? '0'+i : i);
-            select.appendChild(opt);
+        // Kreye Griy Seleksyon
+        const grid = document.getElementById('grid');
+        for(let i=0; i<=36; i++) {
+            let b = document.createElement('button');
+            b.className = 'num-btn';
+            b.innerText = i < 10 ? '0'+i : i;
+            b.onclick = () => {
+                document.querySelectorAll('.num-btn').forEach(btn => btn.classList.remove('selected'));
+                b.classList.add('selected');
+                selectedNum = i;
+                document.getElementById('spinBtn').disabled = false;
+            };
+            grid.appendChild(b);
         }
 
-        // Konstwi Wou yo
-        function initWheels() {
+        // Kreye Wou yo
+        function init() {
             for(let i = 0; i < total; i++) {
-                let angleRad = (i * degStep - 90) * (Math.PI / 180);
+                let angle = i * degStep;
+                let rad = (angle - 90) * (Math.PI / 180);
                 
-                // Deyò (Nimewo)
                 let elO = document.createElement('div');
                 elO.className = 'number-slot num-outer';
-                let xO = 170 * Math.cos(angleRad);
-                let yO = 170 * Math.sin(angleRad);
                 elO.innerText = ordinaryOrder[i];
-                elO.style.transform = `translate(calc(-50% + ${xO}px), calc(-50% + ${yO}px)) rotate(${i * degStep}deg)`;
+                elO.style.transform = `translate(calc(-50% + ${165 * Math.cos(rad)}px), calc(-50% + ${165 * Math.sin(rad)}px)) rotate(${angle}deg)`;
                 document.getElementById('wheelO').appendChild(elO);
 
-                // Mitan (Miltiplikatè san "x")
                 let elI = document.createElement('div');
                 elI.className = 'number-slot num-inner';
-                let xI = 70 * Math.cos(angleRad);
-                let yI = 70 * Math.sin(angleRad);
                 elI.innerText = multipliers[i];
-                elI.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * degStep}deg)`;
+                elI.style.transform = `translate(calc(-50% + ${75 * Math.cos(rad)}px), calc(-50% + ${75 * Math.sin(rad)}px)) rotate(${angle}deg)`;
                 document.getElementById('wheelI').appendChild(elI);
             }
         }
-        initWheels();
+        init();
 
         function openPayment() { document.getElementById('payModal').style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function processPayment() {
             closeModal('payModal');
-            startPrecisionSpin();
+            startSpin();
         }
 
-        let rotO = 0; let rotI = 0;
-        function startPrecisionSpin() {
-            document.getElementById('spinBtn').disabled = true;
+        let rO = 0; let rI = 0;
+        function startSpin() {
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
             document.getElementById('digitalDisplay').innerText = "••";
 
-            // Chwazi rezilta yo avan wou a vire pou presizyon 100%
             const winIdxO = Math.floor(Math.random() * total);
             const winIdxI = Math.floor(Math.random() * total);
 
-            // Kalkil wotasyon pou egwi a tonbe pil sou chif la
-            rotO += 3600 + (360 - (winIdxO * degStep));
-            rotI -= (3600 + (winIdxI * degStep));
+            // Kalkil presizyon 100%
+            rO += 3600 + (360 - (winIdxO * degStep));
+            rI -= 3600 + (winIdxI * degStep);
 
-            document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
-            document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
+            document.getElementById('wheelO').style.transform = `rotate(${rO}deg)`;
+            document.getElementById('wheelI').style.transform = `rotate(${rI}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdxO];
-                const winMultValue = multipliers[winIdxI];
-                const choice = parseInt(document.getElementById('betNumber').value);
+                const winMult = multipliers[winIdxI];
                 
                 document.getElementById('digitalDisplay').innerText = winNum;
-                document.getElementById('spinBtn').disabled = false;
+                btn.disabled = false;
 
-                if(winNum === choice) {
-                    let pwi = betCost * winMultValue;
-                    showResult("OU GENYEN!", `Nimewo: <b>${winNum}</b><br>Miltiplikatè: <b>${winMultValue}</b><br><br><span style="color:var(--gold)">KADÒ: ${pwi} HTG</span>`);
+                if(winNum === selectedNum) {
+                    showResult("BRAVO!", `Nimewo: <b>${winNum}</b><br>Miltiplikatè: <b>${winMult}</b><br><br><span style="color:var(--active-green)">OU GENYEN ${5 * winMult} HTG!</span>`);
                 } else {
-                    showResult("DOMAJ", `Nimewo a te <b>${winNum}</b>.<br>Miltiplikatè a te <b>${winMultValue}</b>.`);
+                    showResult("DOMAJ", `Nimewo a se te <b>${winNum}</b>.<br>Miltiplikatè a te <b>${winMult}</b>.`);
                 }
             }, 8200);
         }
