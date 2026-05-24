@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierre Lannier - Strategic Edition</title>
+    <title>Eroblack Deluxe Roulette</title>
     <style>
         :root {
             --burgundy: #6b001a;
             --sunray: radial-gradient(circle, #8a1a2d 0%, #2b0008 100%);
             --silver: #e0e0e0;
+            --gold: #d4af37;
         }
 
         body {
@@ -24,15 +25,37 @@
             overflow: hidden;
         }
 
+        .status-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .balance-box {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .bet-selector {
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
         .watch-body {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 380px;
+            height: 380px;
             background: linear-gradient(145deg, #2a2a2a, #000);
             border-radius: 50%;
-            padding: 12px;
+            padding: 10px;
             border: 4px solid #1a1a1a;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,8 +63,8 @@
 
         .dial-plate {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 100%;
+            height: 100%;
             background: var(--sunray);
             border-radius: 50%;
             overflow: hidden;
@@ -49,32 +72,28 @@
 
         .needle-main {
             position: absolute;
-            top: 5px;
-            left: 50%;
+            top: 5px; left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 20px;
+            width: 4px; height: 18px;
             background: #fff;
             z-index: 100;
-            box-shadow: 0 0 10px #fff;
+            box-shadow: 0 0 8px #fff;
             border-radius: 2px;
         }
 
         .result-fixed-slot {
             position: absolute;
             z-index: 110;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background: rgba(0,0,0,0.7);
-            border: 2px solid rgba(255,255,255,0.1);
+            width: 65px; height: 65px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid var(--gold);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
             color: #fff;
             backdrop-filter: blur(10px);
@@ -82,8 +101,7 @@
 
         .wheel-container {
             position: absolute;
-            width: 400px;
-            height: 400px;
+            width: 380px; height: 380px;
             transition: transform 7s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
@@ -95,123 +113,201 @@
             align-items: center;
         }
 
-        .num-white {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 500;
-        }
+        .num-white { font-size: 13px; font-weight: 500; color: #fff; }
 
         .text-index {
-            font-size: 17px;
-            font-weight: 950; /* Plis pwès toujou */
+            font-size: 16px;
+            font-weight: 950;
             color: rgba(255, 255, 255, 0.2);
             transition: all 0.4s ease;
-            letter-spacing: 1px;
         }
 
         .text-index.winner {
-            color: #fff;
+            color: var(--gold);
             transform: scale(1.4);
-            text-shadow: 0 0 25px #fff;
+            text-shadow: 0 0 20px var(--gold);
         }
 
         .btn-play {
-            margin-top: 50px;
-            background: #fff;
+            margin-top: 30px;
+            background: var(--gold);
             color: #000;
             border: none;
-            padding: 16px 80px;
+            padding: 15px 60px;
             border-radius: 50px;
             text-transform: uppercase;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
             font-weight: 900;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .btn-play:active { transform: scale(0.95); }
-        .btn-play:disabled { background: #333; color: #666; }
+        .btn-play:disabled { background: #444; color: #888; }
+
+        /* Dialog/Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .modal-btn {
+            background: var(--gold);
+            border: none;
+            padding: 10px 25px;
+            margin: 10px;
+            border-radius: 5px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .modal-btn.cancel { background: #666; color: #fff; }
     </style>
 </head>
 <body>
 
+    <div class="status-bar">
+        <div class="balance-box">BALANS: <span id="userBalance">100</span> HTG</div>
+        <select id="betNumber" class="bet-selector">
+            </select>
+    </div>
+
     <div class="watch-body">
         <div class="needle-main"></div>
         <div class="result-fixed-slot" id="digitalDisplay">P</div>
-        
         <div class="dial-plate">
             <div id="wheelO" class="wheel-container"></div>
-            <div id="wheelI" class="wheel-container" style="width: 250px; height: 250px; left: 75px; top: 75px;"></div>
+            <div id="wheelI" class="wheel-container" style="width: 240px; height: 240px; left: 70px; top: 70px;"></div>
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="spinLuxe()">Vire</button>
+    <button class="btn-play" id="spinBtn" onclick="showPaymentDialog()">Peye 5G & Vire</button>
+
+    <div id="payModal" class="modal">
+        <div class="modal-content">
+            <h3>PWOTOKÒL PEMAN</h3>
+            <p>Èske w dakò peye 5 HTG pou vire roulèt la?</p>
+            <button class="modal-btn" onclick="confirmPayment()">WI, PEYE</button>
+            <button class="modal-btn cancel" onclick="closeModal('payModal')">ANILE</button>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h2 id="resTitle">REZILTA</h2>
+            <p id="resMsg"></p>
+            <button class="modal-btn" onclick="closeModal('resultModal')">OK</button>
+        </div>
+    </div>
 
     <script>
-        // Lòd estratejik (Ordinary Roulette Order)
+        let balance = 100;
+        const betCost = 5;
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
-        // Pou mitan an, nou itilize yon lòd estratejik diferan pou varyete
         const strategicMiddle = [10, 25, 0, 18, 5, 21, 14, 2, 29, 7, 30, 12, 3, 22, 9, 31, 1, 20, 15, 27, 6, 33, 11, 24, 16, 13, 19, 8, 23, 4, 28, 17];
-        
         const total = ordinaryOrder.length;
         const deg = 360 / total;
 
         function format(n) { return n < 10 ? '0' + n : n; }
 
-        // Jenere Chif Deyò (Lòd Roulette)
+        // Popile Select la
+        const select = document.getElementById('betNumber');
+        for(let i=0; i<37; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.innerText = "Chwazi Nimewo: " + format(i);
+            select.appendChild(opt);
+        }
+
+        // Jenere Wou yo
         for(let i = 0; i < total; i++) {
             let el = document.createElement('div');
             el.className = 'number-slot num-white';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 175 * Math.cos(angleRad);
-            let y = 175 * Math.sin(angleRad);
+            let x = 165 * Math.cos(angleRad);
+            let y = 165 * Math.sin(angleRad);
             el.innerText = format(ordinaryOrder[i]);
             el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
             document.getElementById('wheelO').appendChild(el);
-        }
 
-        // Jenere Chif Mitan (Lòd Estratejik & Pwès)
-        for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
             container.className = 'number-slot';
             let txt = document.createElement('div');
             txt.className = 'text-index';
             txt.id = 'mid-' + i;
             txt.innerText = format(strategicMiddle[i]);
-            
-            let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 95 * Math.cos(angleRad); 
-            let y = 95 * Math.sin(angleRad);
-            
-            container.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
+            let xI = 90 * Math.cos(angleRad);
+            let yI = 90 * Math.sin(angleRad);
+            container.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * deg}deg)`;
             container.appendChild(txt);
             document.getElementById('wheelI').appendChild(container);
         }
 
-        let rotO = 0; let rotI = 0;
+        function showPaymentDialog() {
+            if(balance < betCost) return alert("Balans ou twò fèb!");
+            document.getElementById('payModal').style.display = 'flex';
+        }
 
-        function spinLuxe() {
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function confirmPayment() {
+            closeModal('payModal');
+            balance -= betCost;
+            document.getElementById('userBalance').innerText = balance;
+            startSpin();
+        }
+
+        let rotO = 0; let rotI = 0;
+        function startSpin() {
+            document.getElementById('spinBtn').disabled = true;
             document.querySelectorAll('.text-index').forEach(t => t.classList.remove('winner'));
             document.getElementById('digitalDisplay').innerText = "••";
-            document.getElementById('spinBtn').disabled = true;
-            
+
             const winIdxO = Math.floor(Math.random() * total);
             const winIdxI = Math.floor(Math.random() * total);
 
             rotO += 2880 + (360 - (winIdxO * deg));
+            rotI -= (2880 + (180 + (winIdxI * deg)));
+
             document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
+            document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
 
             setTimeout(() => {
-                rotI -= (2880 + (180 + (winIdxI * deg)));
-                document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
+                const winner = document.getElementById('mid-' + winIdxI);
+                const winVal = parseInt(winner.innerText);
+                const userChoice = parseInt(document.getElementById('betNumber').value);
                 
-                setTimeout(() => {
-                    const winner = document.getElementById('mid-' + winIdxI);
-                    winner.classList.add('winner');
-                    document.getElementById('digitalDisplay').innerText = winner.innerText;
-                    document.getElementById('spinBtn').disabled = false;
-                }, 7000);
-            }, 400);
+                winner.classList.add('winner');
+                document.getElementById('digitalDisplay').innerText = format(winVal);
+                document.getElementById('spinBtn').disabled = false;
+
+                // Tcheke si li genyen
+                if(winVal === userChoice) {
+                    let pwi = 50; // Genyen 50 HTG
+                    balance += pwi;
+                    document.getElementById('userBalance').innerText = balance;
+                    showResult("OU GENYEN!", `Chif la te ${winVal}. Ou resevwa ${pwi} HTG!`);
+                } else {
+                    showResult("OU PÈDI", `Chif la te ${winVal}. Eseye ankò!`);
+                }
+            }, 7500);
+        }
+
+        function showResult(title, msg) {
+            document.getElementById('resTitle').innerText = title;
+            document.getElementById('resMsg').innerText = msg;
+            document.getElementById('resultModal').style.display = 'flex';
         }
     </script>
 </body>
