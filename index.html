@@ -3,86 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Watch Roulette</title>
+    <title>Pierre Lannier Luxury Edition</title>
     <style>
         :root {
-            --gold: #d4af37;
-            --rose-gold: linear-gradient(135deg, #e5b299 0%, #b38b71 100%);
-            --dial-bg: radial-gradient(circle, #2c2c2c 0%, #000 100%);
-            --acier: linear-gradient(to bottom, #bdc3c7, #2c3e50);
+            --burgundy: #800020;
+            --anthracite: #3a3a3a;
+            --silver: #d1d1d1;
+            --sunray: radial-gradient(circle, #a52a2a 0%, #4b0014 100%);
         }
 
         body {
-            background-color: #0f0f0f;
-            color: #d1d1d1;
-            font-family: 'Times New Roman', serif;
+            background-color: #050505;
+            color: var(--silver);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
 
-        /* Boîtier Montre la */
-        .watch-case {
+        /* Boîtier Montre la (San Braslè) */
+        .watch-body {
             position: relative;
             width: 380px;
             height: 380px;
-            background: var(--rose-gold);
+            background: linear-gradient(145deg, #444, #111);
             border-radius: 50%;
-            padding: 15px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.3);
+            padding: 8px;
+            border: 2px solid #222;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Kadran anndan an */
-        .dial {
+        /* Kadran Wouj la */
+        .dial-plate {
             position: relative;
             width: 100%;
             height: 100%;
-            background: var(--dial-bg);
+            background: var(--sunray);
             border-radius: 50%;
-            border: 2px solid #555;
+            border: 1px solid #333;
             overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
         }
 
-        .wheel-outer {
+        .wheel-container {
             position: absolute;
             width: 100%;
             height: 100%;
-            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
+            transition: transform 7s cubic-bezier(0.1, 0, 0.1, 1);
         }
 
-        /* Wou santral la (Miltiplikatè) */
-        .wheel-inner {
+        /* Egwi Santral Blan */
+        .hand-needle {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(20, 20, 20, 0.8);
-            border: 1px solid var(--gold);
-            border-radius: 50%;
-            z-index: 5;
-            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-
-        /* Egwi Montre la */
-        .hand {
-            position: absolute;
-            top: 10px;
+            top: 20px;
             z-index: 100;
             width: 2px;
-            height: 40px;
-            background: var(--gold);
-            box-shadow: 0 0 10px var(--gold);
+            height: 60px;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
-        .number {
+        .number-slot {
             position: absolute;
             left: 50%; top: 50%;
             display: flex;
@@ -90,108 +77,114 @@
             align-items: center;
         }
 
-        /* Chif Montre Luxe */
-        .num-lux {
-            color: #d4af37;
-            font-size: 16px;
-            font-weight: 300;
+        /* Chif Deyò yo (Blan Fen) */
+        .num-white {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            font-weight: 200;
             letter-spacing: 1px;
         }
 
-        /* Radio Buttons (Miltiplikatè Style Repère) */
-        .radio-point {
-            width: 20px;
-            height: 20px;
+        /* BOUTON RADIO STYLE "REPÈRE" */
+        .radio-index {
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             background: transparent;
             font-size: 8px;
-            color: #888;
+            color: rgba(255, 255, 255, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.5s;
+            transition: all 0.6s ease;
         }
 
-        .radio-point.winner {
-            background: var(--gold);
-            color: #000;
-            box-shadow: 0 0 15px var(--gold);
+        /* Lè miltiplikatè a genyen (Flash Blan) */
+        .radio-index.active-win {
+            background: #fff;
+            color: #800020;
+            box-shadow: 0 0 20px #fff;
             border-color: #fff;
+            transform: scale(1.2);
         }
 
-        .controls {
+        .center-logo {
             position: absolute;
-            bottom: -80px;
-            width: 100%;
-            text-align: center;
+            z-index: 10;
+            color: white;
+            font-size: 24px;
+            font-weight: 100;
+            opacity: 0.8;
+            pointer-events: none;
         }
 
         button {
+            margin-top: 50px;
             background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 10px 40px;
+            color: white;
+            border: 1px solid #444;
+            padding: 12px 50px;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             cursor: pointer;
-            transition: 0.3s;
+            font-size: 11px;
+            transition: 0.4s;
         }
 
         button:hover {
-            background: var(--gold);
-            color: black;
+            border-color: #fff;
+            background: rgba(255,255,255,0.05);
         }
 
-        #status {
-            margin-top: 15px;
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: var(--gold);
+        #log {
+            margin-top: 20px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #666;
             text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div class="watch-case">
-        <div class="hand"></div>
-        <div class="dial">
-            <div class="wheel-outer" id="wheelO"></div>
-            <div class="wheel-inner" id="wheelI"></div>
-        </div>
-
-        <div class="controls">
-            <input type="number" id="chwa" value="12" style="background:none; border:1px solid #333; color:gold; padding:5px; width:40px; text-align:center;">
-            <br><br>
-            <button onclick="vireLuxe()">Lancer</button>
-            <div id="status">Chronographe Prêt</div>
+    <div class="watch-body">
+        <div class="hand-needle"></div>
+        <div class="center-logo">P</div>
+        
+        <div class="dial-plate">
+            <div class="wheel-container" id="wheelO"></div>
+            <div class="wheel-container" id="wheelI" style="width: 200px; height: 200px; left: 90px; top: 90px;"></div>
         </div>
     </div>
+
+    <button onclick="spinLuxe()">Start Chrono</button>
+    <div id="log">Chronomètre Prêt</div>
 
     <script>
         const total = 32;
         const deg = 360 / total;
 
-        // Chif Deyò (Style Montre)
+        // Chif Deyò sou kadran an
         for(let i = 0; i < total; i++) {
-            let n = document.createElement('div');
-            n.className = 'number num-lux';
+            let el = document.createElement('div');
+            el.className = 'number-slot num-white';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 150 * Math.cos(angleRad);
-            let y = 150 * Math.sin(angleRad);
-            n.innerText = i + 1;
-            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-            document.getElementById('wheelO').appendChild(n);
+            let x = 155 * Math.cos(angleRad);
+            let y = 155 * Math.sin(angleRad);
+            el.innerText = i + 1;
+            el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            document.getElementById('wheelO').appendChild(el);
         }
 
-        // Chif Miltiplikatè (Radio Button Luxe)
+        // Miltiplikatè Style Repère (Radio)
         for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
-            container.className = 'number';
+            container.className = 'number-slot';
             let radio = document.createElement('div');
-            radio.className = 'radio-point';
-            radio.id = 'milt-' + i;
+            radio.className = 'radio-index';
+            radio.id = 'idx-' + i;
             radio.innerText = i;
             
             let angleRad = (i * deg - 90) * (Math.PI / 180);
@@ -203,27 +196,28 @@
             document.getElementById('wheelI').appendChild(container);
         }
 
-        let rO = 0; let rI = 0;
+        let rotO = 0; let rotI = 0;
 
-        function vireLuxe() {
-            document.querySelectorAll('.radio-point').forEach(p => p.classList.remove('winner'));
+        function spinLuxe() {
+            document.querySelectorAll('.radio-index').forEach(r => r.classList.remove('active-win'));
+            
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            document.getElementById('status').innerText = "Mouvement en cours...";
+            document.getElementById('log').innerText = "Mouvement Automatique...";
 
-            rO += 2160 + (360 - (resO * deg));
-            document.getElementById('wheelO').style.transform = `rotate(${rO}deg)`;
+            rotO += 2520 + (360 - (resO * deg));
+            document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
 
             setTimeout(() => {
-                rI -= (2160 + (180 + (resI * deg)));
-                document.getElementById('wheelI').style.transform = `rotate(${rI}deg)`;
+                rotI -= (2520 + (180 + (resI * deg)));
+                document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
                 
                 setTimeout(() => {
-                    document.getElementById('milt-' + resI).classList.add('winner');
-                    document.getElementById('status').innerHTML = `Position: ${resO + 1} | Calibre: x${resI}`;
-                }, 6000);
-            }, 500);
+                    document.getElementById('idx-' + resI).classList.add('active-win');
+                    document.getElementById('log').innerHTML = `Index: ${resO + 1} | Calibre: x${resI}`;
+                }, 7000);
+            }, 600);
         }
     </script>
 </body>
