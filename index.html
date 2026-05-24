@@ -3,109 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Roulette - 25x Payout</title>
+    <title>Eroblack Roulette</title>
     <style>
-        :root {
-            --bg: #050505;
-            --gold: #d4af37;
-            --silver: #ffffff;
-            --accent: #ff0033;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--silver);
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
+        :root { --bg: #050505; --gold: #d4af37; --silver: #ffffff; }
+        body { background-color: var(--bg); color: var(--silver); font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         .control-panel { margin-bottom: 30px; text-align: center; }
-
-        .input-bet {
-            background: #111; border: 2px solid var(--gold);
-            color: var(--gold); padding: 15px; font-size: 22px;
-            font-weight: 900; width: 100px; text-align: center;
-            border-radius: 12px; outline: none;
-        }
-
-        .watch-body {
-            position: relative;
-            width: 380px; height: 380px;
-            background: #111; border-radius: 50%;
-            border: 8px solid #1a1a1a;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .dial-plate {
-            position: relative;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, #4a000e 0%, #000 100%);
-            border-radius: 50%; overflow: hidden;
-        }
-
-        .needle {
-            position: absolute; top: -5px; left: 50%;
-            transform: translateX(-50%);
-            width: 4px; height: 35px;
-            background: #fff; z-index: 100;
-            box-shadow: 0 0 10px #fff; border-radius: 2px;
-        }
-
-        .center-display {
-            position: absolute; z-index: 110;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70px; height: 70px;
-            background: #000; border: 2px solid var(--gold);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 28px; font-weight: 900; color: #fff;
-        }
-
-        .wheel-container {
-            position: absolute; width: 100%; height: 100%;
-            transition: transform 8s cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        .number-slot {
-            position: absolute; left: 50%; top: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 19px; font-weight: 900; color: #fff;
-        }
-
-        .btn-play {
-            margin-top: 40px; background: var(--gold); color: #000;
-            border: none; padding: 18px 60px; border-radius: 50px;
-            text-transform: uppercase; letter-spacing: 2px; font-weight: 900;
-            cursor: pointer;
-        }
-
-        .btn-play:disabled { background: #333; color: #666; }
-
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
-        }
-
-        .modal-content {
-            background: #111; padding: 30px; border-radius: 20px;
-            border: 2px solid var(--gold); text-align: center; width: 260px;
-        }
-
-        .modal-btn {
-            background: var(--gold); border: none; padding: 12px; width: 100%;
-            border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 15px;
-        }
+        .input-bet { background: #111; border: 2px solid var(--gold); color: var(--gold); padding: 15px; font-size: 22px; font-weight: 900; width: 100px; text-align: center; border-radius: 12px; outline: none; }
+        .watch-body { position: relative; width: 320px; height: 320px; background: #111; border-radius: 50%; border: 8px solid #1a1a1a; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; }
+        .dial-plate { position: relative; width: 100%; height: 100%; background: radial-gradient(circle, #4a000e 0%, #000 100%); border-radius: 50%; overflow: hidden; }
+        .needle { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 4px; height: 35px; background: #fff; z-index: 100; box-shadow: 0 0 10px #fff; border-radius: 2px; }
+        .center-display { position: absolute; z-index: 110; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: #000; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #fff; }
+        .wheel-container { position: absolute; width: 100%; height: 100%; transition: transform 8s cubic-bezier(0.2, 0, 0, 1); }
+        .number-slot { position: absolute; left: 50%; top: 50%; display: flex; justify-content: center; align-items: center; font-size: 16px; font-weight: 900; color: #fff; }
+        .btn-play { margin-top: 40px; background: var(--gold); color: #000; border: none; padding: 15px 40px; border-radius: 50px; text-transform: uppercase; font-weight: 900; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: #111; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); text-align: center; width: 240px; }
+        .modal-btn { background: var(--gold); border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="control-panel">
-        <p style="margin-bottom: 10px; font-weight: 800; color: var(--gold);">ANTRE CHIF PAW LA:</p>
+        <p style="margin-bottom: 10px; color: var(--gold);">ANTRE CHIF (0-36):</p>
         <input type="number" id="userBet" class="input-bet" min="0" max="36" placeholder="00">
     </div>
 
@@ -117,24 +36,10 @@
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="initiatePayment()">Vire (5 HTG)</button>
+    <button class="btn-play" id="spinBtn" onclick="initiatePayment()">VIRE (5 HTG)</button>
 
-    <div id="payModal" class="modal">
-        <div class="modal-content">
-            <h3 style="color:var(--gold)">KONFIME</h3>
-            <p>Debite 5 HTG sou balans Eroblack ou?</p>
-            <button class="modal-btn" onclick="processEroblackPayment()">WI, PEYE</button>
-            <button class="modal-btn" style="background:#333; color:#fff" onclick="closeModal('payModal')">ANILE</button>
-        </div>
-    </div>
-
-    <div id="resModal" class="modal">
-        <div class="modal-content">
-            <h2 id="resTitle" style="margin-top:0"></h2>
-            <p id="resMsg" style="font-size: 18px;"></p>
-            <button class="modal-btn" onclick="closeModal('resModal')">OK</button>
-        </div>
-    </div>
+    <div id="payModal" class="modal"><div class="modal-content"><h3>KONFIME</h3><p>Peye 5 HTG pou vire?</p><button class="modal-btn" onclick="processEroblackPayment()">WI, PEYE</button><button class="modal-btn" style="background:#333" onclick="closeModal('payModal')">ANILE</button></div></div>
+    <div id="resModal" class="modal"><div class="modal-content"><h2 id="resTitle"></h2><p id="resMsg"></p><button class="modal-btn" onclick="closeModal('resModal')">OK</button></div></div>
 
     <script>
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
@@ -149,74 +54,46 @@
             let el = document.createElement('div');
             el.className = 'number-slot';
             el.innerText = ordinaryOrder[i];
-            el.style.transform = `translate(calc(-50% + ${155 * Math.cos(rad)}px), calc(-50% + ${155 * Math.sin(rad)}px)) rotate(${angle}deg)`;
+            el.style.transform = `translate(calc(-50% + ${130 * Math.cos(rad)}px), calc(-50% + ${130 * Math.sin(rad)}px)) rotate(${angle}deg)`;
             wheel.appendChild(el);
         }
 
         function initiatePayment() {
             const val = document.getElementById('userBet').value;
-            if(val === "" || val < 0 || val > 36) {
-                alert("Chwazi yon nimewo ant 0 ak 36!");
-                return;
-            }
+            if(val === "" || val < 0 || val > 36) { alert("Chwazi ant 0 ak 36!"); return; }
             document.getElementById('payModal').style.display = 'flex';
         }
 
         function processEroblackPayment() {
             closeModal('payModal');
-            // Isit la nou rele entèfas Android la pou verifye lajan
-            if (typeof Eroblack !== "undefined") {
-                Eroblack.requestPayment(5); // Apèl nan Java
-            } else {
-                console.log("Pwotokòl Eroblack pa detekte - Simulation kòmanse");
-                startSpin();
-            }
+            // Sa a se koneksyon an ak Android
+            if (window.Eroblack) { window.Eroblack.requestPayment(5); }
+            else { startSpin(); } // Simulation pou teste nan navigatè
         }
 
-        // Fonksyon sa a pral rele depi nan Android lè peman an reyisi
-        function onPaymentSuccess() {
-            startSpin();
-        }
+        function onPaymentSuccess() { startSpin(); }
 
         function startSpin() {
             const btn = document.getElementById('spinBtn');
             const center = document.getElementById('centerRes');
-            btn.disabled = true;
-            center.innerText = "••";
-
+            btn.disabled = true; center.innerText = "••";
             const winIdx = Math.floor(Math.random() * total);
-            const extraSpins = 3600; 
-            totalRotation += (extraSpins + (360 - (totalRotation % 360)) - (winIdx * degStep));
+            totalRotation += (3600 + (360 - (totalRotation % 360)) - (winIdx * degStep));
             wheel.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdx];
                 const userChoice = parseInt(document.getElementById('userBet').value);
-                center.innerText = winNum;
-                btn.disabled = false;
-
+                center.innerText = winNum; btn.disabled = false;
                 if(winNum === userChoice) {
-                    const payout = 5 * 25;
-                    // Voye genyen an nan Balans la via Eroblack Protocol
-                    if (typeof Eroblack !== "undefined") {
-                        Eroblack.addWinnings(payout);
-                    }
-                    showResult("BRAVO!", `Chif la se <b>${winNum}</b>.<br><span style="color:var(--gold)">OU GENYEN ${payout} HTG!</span>`);
-                } else {
-                    showResult("DOMAJ", `Chif la se te <b>${winNum}</b>.<br>Eseye ankò!`);
-                }
+                    if (window.Eroblack) { window.Eroblack.addWinnings(125); }
+                    showResult("BRAVO!", `Ou jwenn 125 HTG!`);
+                } else { showResult("DOMAJ", `Chif la se te ${winNum}. Eseye ankò!`); }
             }, 8200);
         }
 
-        function showResult(title, msg) {
-            document.getElementById('resTitle').innerHTML = title;
-            document.getElementById('resMsg').innerHTML = msg;
-            document.getElementById('resModal').style.display = 'flex';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
+        function showResult(title, msg) { document.getElementById('resTitle').innerText = title; document.getElementById('resMsg').innerHTML = msg; document.getElementById('resModal').style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
 </html>
