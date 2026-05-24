@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierre Lannier - Edition Précision</title>
+    <title>Pierre Lannier - Ordre Officiel</title>
     <style>
         :root {
             --burgundy: #6b001a;
@@ -26,7 +26,7 @@
         .watch-body {
             position: relative;
             width: 400px;
-            height: 400px; /* Kenbe dimansyon egal pou evite oval */
+            height: 400px;
             background: linear-gradient(145deg, #2a2a2a, #000);
             border-radius: 50%;
             padding: 12px;
@@ -46,7 +46,6 @@
             overflow: hidden;
         }
 
-        /* Egwi kout pou lizibilite */
         .needle {
             position: absolute;
             left: 50%;
@@ -54,7 +53,9 @@
             background: #fff;
             z-index: 100;
         }
-        .needle-outer { top: 5px; width: 3px; height: 20px; box-shadow: 0 0 5px #fff; }
+        /* Gwo egwi kout pou lizibilite */
+        .needle-outer { top: 5px; width: 3px; height: 18px; box-shadow: 0 0 8px #fff; }
+        /* Ti egwi pou miltiplikatè */
         .needle-inner { top: 90px; width: 2px; height: 15px; opacity: 0.8; }
 
         .result-fixed-slot {
@@ -65,7 +66,7 @@
             transform: translate(-50%, -50%);
             width: 65px;
             height: 65px;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 50%;
             display: flex;
@@ -93,7 +94,7 @@
         }
 
         .num-white {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             font-weight: 300;
         }
@@ -121,7 +122,9 @@
             letter-spacing: 5px;
             font-weight: 800;
             cursor: pointer;
+            transition: 0.2s;
         }
+        button:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -140,27 +143,33 @@
     <button onclick="spinLuxe()">Start</button>
 
     <script>
-        const total = 32;
+        // Lòd ofisyèl yon Roulette Ewopeyen (37 chif, men nou adapte l pou 32 ou mande a)
+        // Pou yon roulette 32, nou itilize yon lòd melanje pwofesyonèl:
+        const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
+        const total = ordinaryOrder.length;
         const deg = 360 / total;
 
-        // Fonksyon pou mete 0 devan si chif la pi piti pase 10
         function formatNumber(num) {
             return num < 10 ? '0' + num : num;
         }
 
-        // Chif Deyò
+        // Chif Deyò (Lòd Roulèt)
         for(let i = 0; i < total; i++) {
             let el = document.createElement('div');
             el.className = 'number-slot num-white';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 170 * Math.cos(angleRad);
-            let y = 170 * Math.sin(angleRad);
-            el.innerText = formatNumber(i + 1);
-            el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            let x = 175 * Math.cos(angleRad);
+            let y = 175 * Math.sin(angleRad);
+            
+            // Plase chif yo selon lòd roulèt òdinè a
+            el.innerText = formatNumber(ordinaryOrder[i]);
+            
+            // Wotasyon chif la pou l toujou dwat parapò ak sant la
+            el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
             document.getElementById('wheelO').appendChild(el);
         }
 
-        // Chif Mitan (Miltiplikatè)
+        // Chif Mitan (Miltiplikatè 00-31)
         for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
             container.className = 'number-slot';
@@ -184,13 +193,15 @@
             document.querySelectorAll('.text-index').forEach(t => t.classList.remove('winner'));
             document.getElementById('digitalDisplay').innerText = "••";
             
-            const resO = Math.floor(Math.random() * total);
+            const indexWinnerO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            rotO += 2520 + (360 - (resO * deg));
+            // Wotasyon wou deyò
+            rotO += 2520 + (360 - (indexWinnerO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
 
             setTimeout(() => {
+                // Wotasyon wou miltiplikatè
                 rotI -= (2520 + (180 + (resI * deg)));
                 document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
                 
