@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierre Lannier Luxury Edition</title>
+    <title>Pierre Lannier Swa Edition</title>
     <style>
         :root {
             --burgundy: #800020;
-            --anthracite: #3a3a3a;
+            --anthracite: #1a1a1a;
             --silver: #d1d1d1;
-            --sunray: radial-gradient(circle, #a52a2a 0%, #4b0014 100%);
+            --sunray: radial-gradient(circle, #a52a2a 0%, #3a000a 100%);
         }
 
         body {
@@ -24,14 +24,13 @@
             margin: 0;
         }
 
-        /* Boîtier Montre la (San Braslè) */
         .watch-body {
             position: relative;
             width: 380px;
             height: 380px;
-            background: linear-gradient(145deg, #444, #111);
+            background: linear-gradient(145deg, #333, #000);
             border-radius: 50%;
-            padding: 8px;
+            padding: 10px;
             border: 2px solid #222;
             box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             display: flex;
@@ -39,34 +38,36 @@
             align-items: center;
         }
 
-        /* Kadran Wouj la */
         .dial-plate {
             position: relative;
             width: 100%;
             height: 100%;
             background: var(--sunray);
             border-radius: 50%;
-            border: 1px solid #333;
+            border: 1px solid #222;
             overflow: hidden;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
         }
+
+        /* Egwi Stab yo */
+        .needle {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            z-index: 100;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+        /* Gwo egwi kout pou wou deyò */
+        .needle-outer { top: 15px; width: 3px; height: 40px; }
+        /* Ti egwi pou wou mitan */
+        .needle-inner { top: 110px; width: 2px; height: 20px; opacity: 0.8; }
 
         .wheel-container {
             position: absolute;
             width: 100%;
             height: 100%;
             transition: transform 7s cubic-bezier(0.1, 0, 0.1, 1);
-        }
-
-        /* Egwi Santral Blan */
-        .hand-needle {
-            position: absolute;
-            top: 20px;
-            z-index: 100;
-            width: 2px;
-            height: 60px;
-            background: #fff;
-            box-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
         .number-slot {
@@ -77,46 +78,34 @@
             align-items: center;
         }
 
-        /* Chif Deyò yo (Blan Fen) */
         .num-white {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 13px;
-            font-weight: 200;
-            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 300;
         }
 
-        /* BOUTON RADIO STYLE "REPÈRE" */
-        .radio-index {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: transparent;
-            font-size: 8px;
-            color: rgba(255, 255, 255, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.6s ease;
+        /* CHIF MITAN DEBARASE & GRA */
+        .text-index {
+            font-size: 11px;
+            font-weight: 900; /* Mete l an gra */
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.5s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* Lè miltiplikatè a genyen (Flash Blan) */
-        .radio-index.active-win {
-            background: #fff;
-            color: #800020;
-            box-shadow: 0 0 20px #fff;
-            border-color: #fff;
-            transform: scale(1.2);
+        .text-index.active-win {
+            color: #fff;
+            font-size: 16px;
+            text-shadow: 0 0 15px #fff;
         }
 
         .center-logo {
             position: absolute;
             z-index: 10;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 100;
-            opacity: 0.8;
-            pointer-events: none;
+            opacity: 0.5;
         }
 
         button {
@@ -130,19 +119,13 @@
             letter-spacing: 4px;
             cursor: pointer;
             font-size: 11px;
-            transition: 0.4s;
-        }
-
-        button:hover {
-            border-color: #fff;
-            background: rgba(255,255,255,0.05);
         }
 
         #log {
             margin-top: 20px;
             font-size: 10px;
             letter-spacing: 3px;
-            color: #666;
+            color: #555;
             text-transform: uppercase;
         }
     </style>
@@ -150,23 +133,23 @@
 <body>
 
     <div class="watch-body">
-        <div class="hand-needle"></div>
+        <div class="needle needle-outer"></div>
+        <div class="needle needle-inner"></div>
         <div class="center-logo">P</div>
         
         <div class="dial-plate">
             <div class="wheel-container" id="wheelO"></div>
-            <div class="wheel-container" id="wheelI" style="width: 200px; height: 200px; left: 90px; top: 90px;"></div>
+            <div class="wheel-container" id="wheelI" style="width: 160px; height: 160px; left: 110px; top: 110px;"></div>
         </div>
     </div>
 
-    <button onclick="spinLuxe()">Start Chrono</button>
-    <div id="log">Chronomètre Prêt</div>
+    <button onclick="spinSwa()">Vire Chrono</button>
+    <div id="log">Mouvement Prêt</div>
 
     <script>
         const total = 32;
         const deg = 360 / total;
 
-        // Chif Deyò sou kadran an
         for(let i = 0; i < total; i++) {
             let el = document.createElement('div');
             el.className = 'number-slot num-white';
@@ -178,33 +161,32 @@
             document.getElementById('wheelO').appendChild(el);
         }
 
-        // Miltiplikatè Style Repère (Radio)
         for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
             container.className = 'number-slot';
-            let radio = document.createElement('div');
-            radio.className = 'radio-index';
-            radio.id = 'idx-' + i;
-            radio.innerText = i;
+            let txt = document.createElement('div');
+            txt.className = 'text-index';
+            txt.id = 'txt-' + i;
+            txt.innerText = i;
             
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 75 * Math.cos(angleRad);
-            let y = 75 * Math.sin(angleRad);
+            let x = 60 * Math.cos(angleRad); // Redwi distans pou l pi prop
+            let y = 60 * Math.sin(angleRad);
             
             container.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-            container.appendChild(radio);
+            container.appendChild(txt);
             document.getElementById('wheelI').appendChild(container);
         }
 
         let rotO = 0; let rotI = 0;
 
-        function spinLuxe() {
-            document.querySelectorAll('.radio-index').forEach(r => r.classList.remove('active-win'));
+        function spinSwa() {
+            document.querySelectorAll('.text-index').forEach(t => t.classList.remove('active-win'));
             
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            document.getElementById('log').innerText = "Mouvement Automatique...";
+            document.getElementById('log').innerText = "Rotation en cours...";
 
             rotO += 2520 + (360 - (resO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
@@ -214,10 +196,10 @@
                 document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
                 
                 setTimeout(() => {
-                    document.getElementById('idx-' + resI).classList.add('active-win');
-                    document.getElementById('log').innerHTML = `Index: ${resO + 1} | Calibre: x${resI}`;
+                    document.getElementById('txt-' + resI).classList.add('active-win');
+                    document.getElementById('log').innerHTML = `Gagnant: ${resO + 1} | Mult: x${resI}`;
                 }, 7000);
-            }, 600);
+            }, 500);
         }
     </script>
 </body>
