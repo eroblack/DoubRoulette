@@ -3,48 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Casino Péniche</title>
+    <title>Eroblack Casino Normal</title>
     <style>
         body {
             background: radial-gradient(circle, #1a472a, #000);
             color: white;
-            font-family: 'Georgia', serif;
+            font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 10px;
         }
 
-        h2 { color: #ffd700; text-shadow: 2px 2px 4px #000; margin: 10px 0; }
-
         .roulette-container {
             position: relative;
-            width: 360px;
-            height: 360px;
+            width: 380px;
+            height: 380px;
             margin: 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 10px solid #5d4037; /* Koulè bwa */
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
-        /* Egwi Deyò (Wouj) */
+        /* Egwi Deyò Anlè */
         .indicator-outer {
             position: absolute;
-            top: -15px;
+            top: 0px;
             z-index: 100;
             width: 0; height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
             border-top: 30px solid #ff0000;
-            filter: drop-shadow(0 2px 5px #000);
         }
 
-        /* Egwi Miltiplikatè (Ble - Soti nan mitan) */
+        /* Egwi Andedan Anba */
         .indicator-inner {
             position: absolute;
-            bottom: 85px;
+            bottom: 95px;
             z-index: 100;
             width: 0; height: 0;
             border-left: 10px solid transparent;
@@ -52,38 +46,27 @@
             border-bottom: 25px solid #00ffff;
         }
 
-        /* Wou Deyò (Jan l ye nan foto a) */
+        /* Wou Deyò */
         .wheel-outer {
             position: absolute;
             width: 340px;
             height: 340px;
             border-radius: 50%;
             background: #111;
-            border: 4px solid #ffd700;
+            border: 5px solid #ffd700;
             transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
 
-        /* Wou Mitan (Vèt Kazino) */
+        /* Wou Mitan */
         .wheel-inner {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 230px;
+            height: 230px;
             border-radius: 50%;
-            background: radial-gradient(circle, #006400, #004d00);
+            background: #004d00;
             border: 4px solid #ffd700;
             transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
-        }
-
-        /* Zetwal Lò nan mitan an */
-        .center-star {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #fff, #ffd700);
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            z-index: 10;
-            box-shadow: 0 0 10px #ffd700;
         }
 
         .number {
@@ -96,129 +79,90 @@
             font-weight: bold;
         }
 
-        /* Stil Chif Deyò yo (background altène) */
+        /* Chif Wou Deyò - Byen Normal */
         .outer-slot {
-            width: 34px;
-            height: 45px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform-origin: center 170px;
-            color: white;
-            font-size: 16px;
-            padding-top: 5px;
-            border-top: 2px solid #ffd700;
+            width: 40px;
+            height: 40px;
+            font-size: 22px; /* Gwo Chif */
+            color: #fff;
         }
 
-        /* Stil Chif Péniche (Ti e Egui) */
+        /* Chif Wou Miltiplikatè - Byen Normal */
         .inner-slot {
-            position: absolute;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
             color: #ffd700;
-            font-size: 11px;
-            font-weight: 900;
-            text-shadow: 1px 1px 2px #000;
         }
-
-        .bg-red { background: #d00; }
-        .bg-black { background: #000; }
-        .bg-green { background: #008000; }
 
         .controls { margin-top: 20px; }
-        input { padding: 10px; width: 80px; border-radius: 5px; border: 2px solid #ffd700; background: #000; color: #00ff00; font-weight: bold; }
-        button { background: linear-gradient(#ffd700, #b8860b); color: #000; padding: 12px 25px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
-        
-        .result-box { margin-top: 15px; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 10px; border: 1px solid #ffd700; display: inline-block; min-width: 280px; }
+        button { 
+            background: #ffd700; color: #000; padding: 15px 30px; 
+            border-radius: 30px; font-weight: bold; border: none; cursor: pointer; 
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 
-    <h2>EROBLACK PÉNICHE CASINO</h2>
+    <h2 style="color:#ffd700">EROBLACK ROULETTE</h2>
 
     <div class="roulette-container">
         <div class="indicator-outer"></div>
         <div class="indicator-inner"></div>
         
         <div class="wheel-outer" id="outerWheel"></div>
-        
-        <div class="wheel-inner" id="innerWheel">
-            <div class="center-star"></div>
-        </div>
+        <div class="wheel-inner" id="innerWheel"></div>
     </div>
 
     <div class="controls">
-        <input type="number" id="chwa" min="1" max="32" value="7"> ¢<br>
-        <button id="spinBtn" onclick="vireRoulette()">JWE PÉNICHE LA</button>
+        <input type="number" id="chwa" value="7" style="padding:10px; width:60px; font-size:18px;">
+        <button id="spinBtn" onclick="vireRoulette()">VIRE</button>
     </div>
 
-    <div class="result-box">
-        <div id="status">Mize 1¢ rive 32¢ pou w genyen!</div>
-    </div>
+    <div id="status" style="margin-top:15px; font-size:20px;"></div>
 
     <script>
         const total = 32;
         const deg = 360 / total;
-        const outerWheel = document.getElementById('outerWheel');
-        const innerWheel = document.getElementById('innerWheel');
 
-        // Jenere Wou Deyò (Style Foto)
+        // Kreye Chif Wou Deyò
         for(let i = 0; i < total; i++) {
-            let slot = document.createElement('div');
-            let colorClass = (i === 0) ? 'bg-green' : (i % 2 === 0 ? 'bg-red' : 'bg-black');
-            slot.className = `outer-slot ${colorClass}`;
-            slot.style.transform = `translate(-50%, -170px) rotate(${i * deg}deg)`;
-            slot.innerHTML = (i + 1) + "¢";
-            outerWheel.appendChild(slot);
-        }
-
-        // Jenere Wou Miltiplikatè (Péniche Klasik)
-        for(let i = 0; i < total; i++) {
-            let slot = document.createElement('div');
-            slot.className = 'inner-slot';
+            let n = document.createElement('div');
+            n.className = 'number outer-slot';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 85 * Math.cos(angleRad);
-            let y = 85 * Math.sin(angleRad);
-            slot.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
-            slot.innerHTML = i + "¢";
-            innerWheel.appendChild(slot);
+            let x = 145 * Math.cos(angleRad);
+            let y = 145 * Math.sin(angleRad);
+            // Chif la rete dwat (0 degre)
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
+            n.innerText = i + 1;
+            document.getElementById('outerWheel').appendChild(n);
         }
 
-        let rotO = 0; let rotI = 0;
+        // Kreye Chif Wou Mitan
+        for(let i = 0; i < total; i++) {
+            let n = document.createElement('div');
+            n.className = 'number inner-slot';
+            let angleRad = (i * deg - 90) * (Math.PI / 180);
+            let x = 90 * Math.cos(angleRad);
+            let y = 90 * Math.sin(angleRad);
+            // Chif la rete dwat (0 degre)
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
+            n.innerText = i;
+            document.getElementById('innerWheel').appendChild(n);
+        }
+
+        let rO = 0; let rI = 0;
 
         function vireRoulette() {
-            const btn = document.getElementById('spinBtn');
-            const chwa = parseInt(document.getElementById('chwa').value);
-            if(chwa < 1 || chwa > 32) return alert("Chwazi ant 1 ak 32!");
-
-            btn.disabled = true;
-            document.getElementById('status').innerText = "Wou a ap vire...";
-
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            // Phase 1: Gwo Wou
-            rotO += 1440 + (360 - (resO * deg));
-            outerWheel.style.transform = `rotate(${rotO}deg)`;
+            rO += 1440 + (360 - (resO * deg));
+            document.getElementById('outerWheel').style.transform = `rotate(${rO}deg)`;
+
+            document.getElementById('status').innerText = "Wou 1 ap vire...";
 
             setTimeout(() => {
-                document.getElementById('status').innerHTML = `Nimewo: <b style="color:#00ff00">${resO + 1}¢</b>. Atann miltiplikatè a...`;
-                
-                // Phase 2: Ti Wou (Miltiplikatè)
-                rotI -= (1440 + (180 + (resI * deg)));
-                innerWheel.style.transform = `rotate(${rotI}deg)`;
-
-                setTimeout(() => {
-                    btn.disabled = false;
-                    let teGenyen = (chwa === (resO + 1));
-                    let milt = resI;
-                    
-                    if(teGenyen) {
-                        document.getElementById('status').innerHTML = `🎉 GAYE! ${resO+1}¢ x ${milt} = <b style="color:#ffd700">${(resO+1)*milt}¢</b>`;
-                    } else {
-                        document.getElementById('status').innerHTML = `😞 PÈDI! Rezilta: ${resO+1}¢ (Milt: ${milt}¢)`;
-                    }
-                }, 4100);
-            }, 4100);
-        }
-    </script>
-</body>
-</html>
+                document.getElementById('status').innerText = "Nimewo: " + (resO + 1) + ". Kounye a miltiplikatè...";
+                rI -= (1440 + (180 + (resI * deg)));
