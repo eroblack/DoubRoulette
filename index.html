@@ -1,52 +1,182 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="ht">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mon Site Web</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(120deg, #4facfe, #00f2fe);
-      color: #fff;
-      text-align: center;
-    }
-    header {
-      padding: 50px 20px;
-    }
-    h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 18px;
-      opacity: 0.9;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      background: #fff;
-      color: #333;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eroblack Roulette Pro 32</title>
+    <style>
+        body {
+            background: #050505;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .roulette-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Wou Deyò (1-32) */
+        .wheel-outer {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 8px solid #ffd700;
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+
+        /* Wou Andedan (X0-X31) */
+        .wheel-inner {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid #00ffff;
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+            z-index: 2;
+        }
+
+        /* Endikatè ki andedan wou yo */
+        .indicator-outer {
+            position: absolute;
+            top: 5px;
+            z-index: 10;
+            color: #ff0055;
+            font-size: 20px;
+            text-shadow: 0 0 10px #ff0055;
+        }
+        .indicator-inner {
+            position: absolute;
+            bottom: 5px;
+            z-index: 10;
+            color: #00ffff;
+            font-size: 16px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .wheel-text { width: 100%; height: 100%; position: relative; }
+
+        .number {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            left: calc(50% - 15px);
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Wou Deyò: Nimewo pi gwo */
+        .wheel-outer .number { 
+            top: 10px; 
+            font-size: 16px; 
+            transform-origin: 15px 150px; 
+        }
+
+        /* Wou Andedan: Nimewo pi gwo */
+        .wheel-inner .number { 
+            top: 8px; 
+            font-size: 14px; 
+            transform-origin: 15px 72px; 
+        }
+
+        .num-red { color: #ff4444; }
+        .num-white { color: #ffffff; }
+        .num-zero { color: #ff0055; font-weight: 900; }
+
+        button {
+            background: #00ff00;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body>  <header>
-    <h1>Byenveni sou sit mwen</h1>
-    <p>Mwen kreye sit sa ak HTML + CSS</p>
-    <a class="btn" href="#">Klike la</a>
-  </header>  <footer>
-    © 2026 - Sit pèsonèl mwen
-  </footer></body>
+<body>
+
+    <h2>EROBLACK ROULETTE</h2>
+
+    <div class="roulette-container">
+        <!-- Endikatè ki andedan woulo yo -->
+        <div class="indicator-outer">▼</div>
+        <div class="indicator-inner">▲</div>
+        
+        <div class="wheel-outer" id="outerWheel">
+            <div class="wheel-text" id="outerTexts"></div>
+        </div>
+        
+        <div class="wheel-inner" id="innerWheel">
+            <div class="wheel-text" id="innerTexts"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="number" id="chwa" min="1" max="32" value="7" style="padding:10px; font-size:18px;">
+        <br>
+        <button id="spinBtn" onclick="vireRoulettePro()">VIRE ROULETTE LA</button>
+    </div>
+
+    <div id="status" style="margin-top:20px; font-size: 18px;">Klike pou w vire!</div>
+
+    <script>
+        const total = 32;
+        const degrePaSeksyon = 360 / total;
+
+        const outerTexts = document.getElementById('outerTexts');
+        const innerTexts = document.getElementById('innerTexts');
+
+        for(let i = 0; i < total; i++) {
+            let angle = i * degrePaSeksyon;
+            
+            // Outer
+            let d1 = document.createElement('div');
+            d1.className = `number ${i % 2 === 0 ? 'num-red' : 'num-white'}`;
+            d1.innerText = i + 1;
+            d1.style.transform = `rotate(${angle}deg)`;
+            outerTexts.appendChild(d1);
+
+            // Inner
+            let d2 = document.createElement('div');
+            d2.className = `number ${i === 0 ? 'num-zero' : ''}`;
+            d2.innerText = "X" + i;
+            d2.style.transform = `rotate(${angle}deg)`;
+            innerTexts.appendChild(d2);
+        }
+
+        let rotOut = 0, rotInn = 0;
+
+        function vireRoulettePro() {
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
+
+            const idxOut = Math.floor(Math.random() * total);
+            const idxInn = Math.floor(Math.random() * total);
+
+            rotOut += 1800 + (360 - (idxOut * degrePaSeksyon));
+            rotInn -= (1800 + (idxInn * degrePaSeksyon));
+
+            document.getElementById('outerWheel').style.transform = `rotate(${rotOut}deg)`;
+            document.getElementById('innerWheel').style.transform = `rotate(${rotInn}deg)`;
+
+            setTimeout(() => {
+                btn.disabled = false;
+                document.getElementById('status').innerHTML = `Nimewo: ${idxOut + 1} | Miltiplikatè: X${idxInn}`;
+            }, 5000);
+        }
+    </script>
+</body>
 </html>
