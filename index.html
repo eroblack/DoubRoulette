@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Roulette</title>
+    <title>Eroblack Roulette - 25x Payout</title>
     <style>
         :root { --bg: #050505; --gold: #d4af37; --silver: #ffffff; }
         body { background-color: var(--bg); color: var(--silver); font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
@@ -57,12 +57,17 @@
     </div>
 
     <script>
+        // Fonksyon pon pou kominikasyon
+        function sendToApp(bwat, val) {
+            if (window.Android) { window.Android.voyeKòb(bwat, val.toString()); }
+            if (window.SketchwareInterface) { window.SketchwareInterface.voyeKòb(bwat + ":" + val); }
+        }
+
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
         const total = ordinaryOrder.length;
         const degStep = 360 / total;
         let totalRotation = 0;
 
-        // Kreye wou a
         const wheel = document.getElementById('wheel');
         for(let i = 0; i < total; i++) {
             let angle = i * degStep;
@@ -74,15 +79,6 @@
             wheel.appendChild(el);
         }
 
-        // Kominikasyon ak Android
-        function sendToAndroid(action, value) {
-            if (window.Android) {
-                window.Android.updateData(action, value.toString());
-            } else {
-                console.log("Android interface non detekte. Simulation: " + action + " - " + value);
-            }
-        }
-
         function initiatePayment() {
             const val = document.getElementById('userBet').value;
             if(val === "" || val < 0 || val > 36) { alert("Chwazi ant 0 ak 36!"); return; }
@@ -91,11 +87,11 @@
 
         function processEroblackPayment() {
             closeModal('payModal');
-            // Voye demann peman bay Android
-            sendToAndroid("peye", 5);
+            // Voye demann peman 5 HTG
+            sendToApp("peye", "5");
         }
 
-        // Fonksyon sa a ap rele depi nan Java lè peman an fin trete
+        // Fonksyon sa a dwe rele depi nan Android (Java) lè peman an fin trete
         function onPaymentSuccess() {
             startSpin();
         }
@@ -115,8 +111,9 @@
                 
                 if(winNum === userChoice) {
                     const payout = 125;
-                    sendToAndroid("genyen", payout);
-                    showResult("BRAVO!", `Ou genyen 125 HTG!`);
+                    // Voye genyen 125 HTG bay Android
+                    sendToApp("genyen", payout.toString());
+                    showResult("BRAVO!", `Ou genyen ${payout} HTG!`);
                 } else {
                     showResult("DOMAJ", `Chif la se te ${winNum}. Eseye ankò!`);
                 }
