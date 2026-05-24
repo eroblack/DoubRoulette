@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Roulette Pro</title>
+    <title>Eroblack Roulette - Fix Precision</title>
     <style>
         :root {
             --bg: #050505;
@@ -14,7 +14,7 @@
         body {
             background-color: var(--bg);
             color: var(--silver);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -23,31 +23,19 @@
             margin: 0;
         }
 
-        /* Panèl kontwòl senp */
-        .control-panel {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+        .control-panel { margin-bottom: 30px; text-align: center; }
 
         .input-bet {
-            background: #111;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 15px;
-            font-size: 20px;
-            font-weight: 900;
-            width: 120px;
-            text-align: center;
-            border-radius: 12px;
-            outline: none;
+            background: #111; border: 2px solid var(--gold);
+            color: var(--gold); padding: 15px; font-size: 22px;
+            font-weight: 900; width: 100px; text-align: center;
+            border-radius: 12px; outline: none;
         }
 
-        /* Wou a */
         .watch-body {
             position: relative;
             width: 380px; height: 380px;
-            background: #111;
-            border-radius: 50%;
+            background: #111; border-radius: 50%;
             border: 8px solid #1a1a1a;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             display: flex; justify-content: center; align-items: center;
@@ -60,46 +48,44 @@
             border-radius: 50%; overflow: hidden;
         }
 
-        /* Egwi a */
+        /* Egwi a fiks anlè (0 degre) */
         .needle {
-            position: absolute; top: -10px; left: 50%;
+            position: absolute; top: -5px; left: 50%;
             transform: translateX(-50%);
-            width: 6px; height: 40px;
+            width: 4px; height: 35px;
             background: #fff; z-index: 100;
-            box-shadow: 0 0 10px #fff;
-            border-radius: 0 0 4px 4px;
+            box-shadow: 0 0 10px #fff; border-radius: 2px;
         }
 
         .center-display {
             position: absolute; z-index: 110;
             top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80px; height: 80px;
-            background: #000; border: 3px solid var(--gold);
+            width: 70px; height: 70px;
+            background: #000; border: 2px solid var(--gold);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 32px; font-weight: 900; color: #fff;
+            font-size: 28px; font-weight: 900; color: #fff;
         }
 
         .wheel-container {
             position: absolute; width: 100%; height: 100%;
-            transition: transform 7s cubic-bezier(0.1, 0, 0, 1);
+            transition: transform 8s cubic-bezier(0.2, 0, 0, 1);
         }
 
         .number-slot {
             position: absolute; left: 50%; top: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 18px; font-weight: 800; color: #fff;
+            font-size: 19px; font-weight: 900; color: #fff;
         }
 
         .btn-play {
             margin-top: 40px; background: var(--gold); color: #000;
             border: none; padding: 18px 60px; border-radius: 50px;
-            text-transform: uppercase; letter-spacing: 3px; font-weight: 900;
-            cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 900;
+            cursor: pointer;
         }
 
         .btn-play:disabled { background: #333; color: #666; }
 
-        /* Modal */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
@@ -119,7 +105,7 @@
 <body>
 
     <div class="control-panel">
-        <p style="margin-bottom: 10px; font-weight: 800;">TAPE NIMEWO OU (0-36):</p>
+        <p style="margin-bottom: 10px; font-weight: 800; color: var(--gold);">ANTRE CHIF PAW LA:</p>
         <input type="number" id="userBet" class="input-bet" min="0" max="36" placeholder="00">
     </div>
 
@@ -131,7 +117,7 @@
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="confirmPlay()">VIRE (5 HTG)</button>
+    <button class="btn-play" id="spinBtn" onclick="confirmPlay()">Vire (5 HTG)</button>
 
     <div id="resModal" class="modal">
         <div class="modal-content">
@@ -142,28 +128,30 @@
     </div>
 
     <script>
+        // Lòd ofisyèl roulette (32 nimewo nan lis ou a)
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
         const total = ordinaryOrder.length;
-        const degStep = 360 / total;
+        const degStep = 360 / total; // Degre pou chak chif
 
-        // Inisyalize Wou a
         const wheel = document.getElementById('wheel');
+        
+        // Mete nimewo yo sou wou a
         for(let i = 0; i < total; i++) {
             let angle = i * degStep;
             let rad = (angle - 90) * (Math.PI / 180);
             let el = document.createElement('div');
             el.className = 'number-slot';
             el.innerText = ordinaryOrder[i];
-            el.style.transform = `translate(calc(-50% + ${160 * Math.cos(rad)}px), calc(-50% + ${160 * Math.sin(rad)}px)) rotate(${angle}deg)`;
+            el.style.transform = `translate(calc(-50% + ${155 * Math.cos(rad)}px), calc(-50% + ${155 * Math.sin(rad)}px)) rotate(${angle}deg)`;
             wheel.appendChild(el);
         }
 
-        let currentRotation = 0;
+        let totalRotation = 0;
 
         function confirmPlay() {
             const val = document.getElementById('userBet').value;
             if(val === "" || val < 0 || val > 36) {
-                alert("Tanpri antre yon nimewo ant 0 ak 36");
+                alert("Chwazi yon nimewo ant 0 ak 36!");
                 return;
             }
             startSpin();
@@ -175,13 +163,20 @@
             btn.disabled = true;
             center.innerText = "••";
 
+            // 1. Chwazi Index ki genyen an
             const winIdx = Math.floor(Math.random() * total);
-            // Kalkil wotasyon pafè pou rezilta a tonbe anba egwi a
-            // 3600 (10 tò) + rès degre pou chif la santre
-            const targetRotation = 3600 + (360 - (winIdx * degStep));
-            currentRotation += targetRotation;
+            
+            // 2. Kalkile wotasyon egzak: 
+            // Nou vle winIdx la rive nan 0 degre (anlè). 
+            // Sa vle di nou dwe vire wou a nan sans envès (-winIdx * degStep) 
+            // plis kèk tò konplè pou bèlte (3600 degre = 10 tò).
+            const extraSpins = 3600; 
+            const finalAngle = extraSpins - (winIdx * degStep);
+            
+            // Nou ajoute finalAngle sou totalRotation pou wou a pa tounen dèyè
+            totalRotation += (extraSpins + (360 - (totalRotation % 360)) - (winIdx * degStep));
 
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            wheel.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdx];
@@ -191,11 +186,11 @@
                 btn.disabled = false;
 
                 if(winNum === userChoice) {
-                    showResult("OU GENYEN!", `Nimewo a se <b>${winNum}</b>.<br>Ou genyen 50 HTG!`);
+                    showResult("BRAVO!", `Chif la se <b>${winNum}</b>.<br>Ou genyen 50 HTG!`);
                 } else {
-                    showResult("DOMAJ", `Nimewo a se te <b>${winNum}</b>.<br>Eseye ankò!`);
+                    showResult("DOMAJ", `Chif la se te <b>${winNum}</b>.<br>Eseye ankò!`);
                 }
-            }, 7200);
+            }, 8200); // 8 segonn pou l fini vire
         }
 
         function showResult(title, msg) {
