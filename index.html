@@ -22,41 +22,48 @@
             font-size: 24px;
         }
 
+        /* Kontenè a elaji pou ba egwi yo espas deyò a */
         .roulette-container {
             position: relative;
-            width: 360px;
-            height: 360px;
+            width: 390px;
+            height: 390px;
             margin: 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Egiy endikatè yo fiks anndan zòn jwèt la */
-        .indicator-outer {
+        /* EGWI DEYÒ ANLO (Wouj - Pou Wou Deyò a) */
+        .indicator-outer-top {
             position: absolute;
-            top: 8px;
+            top: 0px; /* Li nèt deyò wou a */
             z-index: 10;
-            color: #ff0055;
-            font-size: 26px;
-            text-shadow: 0 0 10px #ff0055;
-            font-weight: bold;
-        }
-        .indicator-inner {
-            position: absolute;
-            bottom: 8px;
-            z-index: 10;
-            color: #00ffff;
-            font-size: 26px;
-            text-shadow: 0 0 10px #00ffff;
-            font-weight: bold;
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 24px solid #ff0055;
+            filter: drop-shadow(0 0 8px #ff0055);
         }
 
-        /* Wou Deyò (Lajè: 340px) */
+        /* EGWI DEYÒ ANBA (Ble - Pou Wou Mitan an) */
+        .indicator-inner-bottom {
+            position: absolute;
+            bottom: 0px; /* Li nèt deyò wou a anba */
+            z-index: 10;
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 24px solid #00ffff;
+            filter: drop-shadow(0 0 8px #00ffff);
+        }
+
+        /* Wou Deyò */
         .wheel-outer {
             position: absolute;
-            width: 340px;
-            height: 340px;
+            width: 330px;
+            height: 330px;
             border-radius: 50%;
             border: 6px solid #ffd700;
             background: #111;
@@ -64,11 +71,11 @@
             box-shadow: 0 0 25px rgba(241, 196, 15, 0.4);
         }
 
-        /* Wou Mitan / Andedan - KOUNYE A LI LAJ ANPIL (Lajè: 240px olye de 170px) */
+        /* Wou Mitan Laj */
         .wheel-inner {
             position: absolute;
-            width: 240px;
-            height: 240px;
+            width: 230px;
+            height: 230px;
             border-radius: 50%;
             border: 5px solid #00ffff;
             background: #1a1a1a;
@@ -85,13 +92,13 @@
             left: 0;
         }
 
-        /* Stil pou CHIF YO - Tou de gen menm gwo modèl la koulye a */
+        /* MODÈL CHIF YO: Byen gwo, byen klè, san okenn lèt */
         .number {
             position: absolute;
-            width: 35px;
-            height: 35px;
-            font-weight: 900; /* Byen gra */
-            font-size: 18px;  /* Byen gwo pou tou de */
+            width: 40px;
+            height: 40px;
+            font-weight: 900; 
+            font-size: 22px;  /* Maksimòm gwosè pou l parèt byen klè */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -103,9 +110,9 @@
         .num-red { color: #ff3333; text-shadow: 0 0 5px #ff0000; }
         .num-black { color: #ffffff; text-shadow: 0 0 5px #000; }
         
-        /* Koulè Wou Mitan (Laj) */
+        /* Koulè Wou Mitan */
         .num-inner-style { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
-        .num-zero { color: #ff0055; text-shadow: 0 0 8px #ff0055; font-size: 20px !important; }
+        .num-zero { color: #ff0055; text-shadow: 0 0 8px #ff0055; font-size: 24px !important; }
 
         .controls { margin-top: 15px; }
         input[type="number"] {
@@ -154,9 +161,9 @@
     <h2>EROBLACK ROULETTE PRO 32</h2>
 
     <div class="roulette-container">
-        <!-- Egiy endikatè yo fiks anndan zòn nan -->
-        <div class="indicator-outer">▼</div>
-        <div class="indicator-inner">▲</div>
+        <!-- Egui yo kounye a fiks DEYÒ nèt ale -->
+        <div class="indicator-outer-top"></div>
+        <div class="indicator-inner-bottom"></div>
         
         <!-- Wou Deyò -->
         <div class="wheel-outer" id="outerWheel">
@@ -187,11 +194,9 @@
         const outerTexts = document.getElementById('outerTexts');
         const innerTexts = document.getElementById('innerTexts');
 
-        // REYON YO AJISTE: 
-        // Reyon deyò a rete 145px pou chif yo bò rebò a
-        // Reyon andedan an vin 98px pou chif yo ka gaye byen gwo nan wou mitan ki laj la
-        const reyonDeyo = 145;  
-        const reyonAndedan = 98; 
+        // Reyon kalkile pou gwo chif yo rete byen santre nan zòn pa yo
+        const reyonDeyo = 138;  
+        const reyonAndedan = 90; 
 
         // Jenere Wou Deyò (1-32)
         for(let i = 0; i < totalNimewo; i++) {
@@ -209,7 +214,7 @@
             outerTexts.appendChild(divOuter);
         }
 
-        // Jenere Wou Mitan Laj (X0-X31)
+        // Jenere Wou Mitan Laj (0-31) -> PA GEN "X" ANKÒ!
         for(let i = 0; i < totalNimewo; i++) {
             let angleRad = (i * degrePaSeksyon - 90) * (Math.PI / 180);
             
@@ -221,7 +226,8 @@
             } else {
                 divInner.classList.add('num-inner-style');
             }
-            divInner.innerText = "X" + i;
+            // Isit la mwen retire lèt "X" la nèt, li afiche sèlman chif la
+            divInner.innerText = i; 
             
             let x = reyonAndedan * Math.cos(angleRad);
             let y = reyonAndedan * Math.sin(angleRad);
@@ -259,7 +265,7 @@
 
             const fwaVire = 5 * 360; 
             
-            // Kalkil wotasyon pafè pa rapò ak nouvo reyon yo
+            // Kalkil wotasyon yo pafè
             kouranDegreOuter += fwaVire + (360 - (endèksDeyoGayan * degrePaSeksyon));
             kouranDegreInner -= (fwaVire + (180 + (endèksAndedanGayan * degrePaSeksyon)));
 
@@ -274,14 +280,14 @@
 
                 if (teGenyen) {
                     if (miltiplikatèGayan === 0) {
-                        mesaj = `🎯 Ou jwenn nimewo <span class="highlight">${chifGayan}</span> lan! <br>Men, miltiplikatè a bay <span class="num-zero">X0</span>... Ou touche 0 fwa mize w lan! 😮`;
+                        mesaj = `🎯 Ou jwenn nimewo <span class="highlight">${chifGayan}</span> lan! <br>Men, miltiplikatè a bay <span class="num-zero">0</span>... Ou touche 0 fwa mize w lan! 😮`;
                         sendToApp("roulette_genyen", "0");
                     } else {
                         mesaj = `🎉 **BRAVO!** Wou a bay nimewo <span class="highlight">${chifGayan}</span>!<br>Miltiplikatè ou se: <span class="highlight-mult">X${miltiplikatèGayan}</span>!`;
                         sendToApp("roulette_genyen", miltiplikatèGayan);
                     }
                 } else {
-                    mesaj = `😞 **Ou pèdi!** Wou a bay nimewo <span class="highlight" style="color:#ff3333">${chifGayan}</span>.<br>Miltiplikatè a te soti: X${miltiplikatèGayan}.`;
+                    mesaj = `😞 **Ou pèdi!** Wou a bay nimewo <span class="highlight" style="color:#ff3333">${chifGayan}</span>.<br>Miltiplikatè a te soti: ${miltiplikatèGayan}.`;
                     sendToApp("roulette_pedi", "0");
                 }
 
