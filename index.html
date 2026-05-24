@@ -3,98 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XP Black Roulette Edition</title>
+    <title>Eroblack iPhone Edition</title>
     <style>
+        :root {
+            --ios-blue: #007AFF;
+            --ios-gray: #8E8E93;
+            --bg-color: #f2f2f7;
+        }
+
         body {
-            background: #000; /* Fond nwa total */
-            color: white;
-            font-family: 'Tahoma', 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Fenèt Windows XP Style */
-        .xp-window {
-            background: #222;
-            border: 3px solid #0055ee; /* Ble XP klasik la */
-            border-radius: 8px 8px 0 0;
-            width: 380px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-        }
-
-        /* Tit Fenèt la */
-        .xp-title-bar {
-            background: linear-gradient(to bottom, #0058e7 0%, #0036a6 100%);
-            padding: 5px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            font-size: 13px;
-            color: white;
-            text-shadow: 1px 1px #000;
-        }
-
-        .xp-buttons {
-            display: flex;
-            gap: 3px;
-        }
-
-        .xp-btn {
-            width: 21px;
-            height: 21px;
-            background: #ccc;
-            border: 1px solid #fff;
-            border-radius: 3px;
+            background-color: var(--bg-color);
+            color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: black;
-            font-size: 10px;
-            font-weight: bold;
+            height: 100vh;
+            margin: 0;
         }
 
-        .xp-close { background: #e04343; color: white; }
+        /* Coque iPhone */
+        .iphone-frame {
+            background: #fff;
+            width: 350px;
+            padding: 20px;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .dynamic-island {
+            width: 100px;
+            height: 25px;
+            background: #000;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+        }
 
         .roulette-container {
             position: relative;
-            width: 360px;
-            height: 360px;
+            width: 310px;
+            height: 310px;
             margin: 20px auto;
-            background: radial-gradient(circle, #333, #000);
+            background: #fff;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 4px solid #444;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
         }
 
-        /* Wou Deyò (Black Glossy) */
+        /* Wou Deyò (Minimalist) */
         .wheel-outer {
             position: absolute;
-            width: 330px;
-            height: 330px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            background: #111;
-            border: 6px solid #0055ee;
+            background: #fff;
+            border: 1px solid #e5e5e5;
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-            box-shadow: inset 0 0 20px rgba(0,85,238,0.3);
         }
 
-        /* Wou Mitan (Silver XP) */
+        /* Wou Mitan (Glassmorphism) */
         .wheel-inner {
             position: absolute;
-            width: 190px;
-            height: 190px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #444, #111);
-            border: 4px solid #0055ee;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.05);
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .number {
@@ -103,80 +84,85 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
         }
 
-        .outer-num { color: #00ff00; font-size: 16px; text-shadow: 0 0 5px #00ff00; }
-        .inner-num { color: #00ffff; font-size: 10px; }
+        /* Chif Apple Style */
+        .outer-num { 
+            color: #1d1d1f; 
+            font-size: 14px; 
+            font-weight: 500;
+        }
+        .inner-num { 
+            color: var(--ios-blue); 
+            font-size: 9px; 
+            font-weight: 600;
+        }
 
         .indicator {
             position: absolute;
             top: -10px;
             z-index: 20;
-            color: #00ff00;
-            font-size: 30px;
-            filter: drop-shadow(0 0 5px #00ff00);
+            width: 4px;
+            height: 20px;
+            background: var(--ios-blue);
+            border-radius: 2px;
         }
 
-        /* Bouton XP Style */
+        /* Bouton iOS */
         .controls {
-            padding: 20px;
-            background: #dcd9d3; /* Koulè gri klasik la */
-            border-top: 1px solid #808080;
+            margin-top: 30px;
+        }
+
+        input {
+            border: none;
+            background: #f2f2f7;
+            padding: 12px;
+            border-radius: 10px;
+            width: 50px;
+            font-size: 17px;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         button {
-            background: linear-gradient(to bottom, #76d05e 0%, #3e9f2a 100%);
-            border: 1px solid #2e7d1d;
-            border-radius: 5px;
+            background-color: var(--ios-blue);
             color: white;
-            padding: 10px 30px;
-            font-weight: bold;
-            font-size: 14px;
+            border: none;
+            padding: 14px 60px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
             cursor: pointer;
-            text-shadow: 1px 1px #000;
-            box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            transition: opacity 0.2s;
         }
 
-        button:active {
-            background: linear-gradient(to top, #76d05e 0%, #3e9f2a 100%);
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
-        }
+        button:active { opacity: 0.7; }
 
         #status {
-            background: #000;
-            color: #00ff00;
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            border: 1px solid #0055ee;
-            margin-top: 10px;
-            text-align: left;
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--ios-gray);
+            font-weight: 400;
         }
     </style>
 </head>
 <body>
 
-    <div class="xp-window">
-        <div class="xp-title-bar">
-            <span>Roulette_Professional_XP.exe</span>
-            <div class="xp-buttons">
-                <div class="xp-btn">_</div>
-                <div class="xp-btn">□</div>
-                <div class="xp-btn xp-close">X</div>
-            </div>
-        </div>
-
+    <div class="iphone-frame">
+        <div class="dynamic-island"></div>
+        <h3 style="font-weight: 600; margin: 0;">Roulette Gold</h3>
+        
         <div class="roulette-container">
-            <div class="indicator">▼</div>
+            <div class="indicator"></div>
             <div class="wheel-outer" id="wheelO"></div>
             <div class="wheel-inner" id="wheelI"></div>
         </div>
 
         <div class="controls">
-            <input type="number" id="chwa" value="7" style="padding:5px; width:50px;">
-            <button onclick="vireXP()">START SPIN</button>
-            <div id="status">C:\WINDOWS\system32> Await input...</div>
+            <input type="number" id="chwa" value="7">
+            <br>
+            <button onclick="vireIPhone()">Spin</button>
+            <div id="status">Ready to play</div>
         </div>
     </div>
 
@@ -188,8 +174,8 @@
             let n = document.createElement('div');
             n.className = 'number outer-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 140 * Math.cos(angleRad);
-            let y = 140 * Math.sin(angleRad);
+            let x = 130 * Math.cos(angleRad);
+            let y = 130 * Math.sin(angleRad);
             n.innerText = i + 1;
             n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
             document.getElementById('wheelO').appendChild(n);
@@ -199,8 +185,8 @@
             let n = document.createElement('div');
             n.className = 'number inner-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 75 * Math.cos(angleRad);
-            let y = 75 * Math.sin(angleRad);
+            let x = 65 * Math.cos(angleRad);
+            let y = 65 * Math.sin(angleRad);
             n.innerText = i;
             n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
             document.getElementById('wheelI').appendChild(n);
@@ -208,10 +194,10 @@
 
         let curO = 0; let curI = 0;
 
-        function vireXP() {
+        function vireIPhone() {
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
-            document.getElementById('status').innerText = "C:\\WINDOWS\\system32> Executing spin...";
+            document.getElementById('status').innerText = "Spinning...";
 
             curO += 1440 + (360 - (resO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${curO}deg)`;
@@ -221,7 +207,7 @@
                 document.getElementById('wheelI').style.transform = `rotate(${curI}deg)`;
                 
                 setTimeout(() => {
-                    document.getElementById('status').innerHTML = `C:\\> Result: ${resO + 1} | Mult: X${resI} [Success]`;
+                    document.getElementById('status').innerHTML = `Result: <b>${resO + 1}</b> • Mult: <b>x${resI}</b>`;
                 }, 5000);
             }, 800);
         }
