@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Deluxe Roulette</title>
+    <title>Eroblack Deluxe - Strategic</title>
     <style>
         :root {
-            --burgundy: #6b001a;
             --sunray: radial-gradient(circle, #8a1a2d 0%, #2b0008 100%);
-            --silver: #e0e0e0;
             --gold: #d4af37;
+            --silver: #e0e0e0;
         }
 
         body {
@@ -30,21 +29,16 @@
             text-align: center;
         }
 
-        .balance-box {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-        }
-
         .bet-selector {
             background: #1a1a1a;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-weight: 700;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
         }
 
         .watch-body {
@@ -74,10 +68,10 @@
             position: absolute;
             top: 5px; left: 50%;
             transform: translateX(-50%);
-            width: 4px; height: 18px;
+            width: 4px; height: 20px;
             background: #fff;
             z-index: 100;
-            box-shadow: 0 0 8px #fff;
+            box-shadow: 0 0 10px #fff;
             border-radius: 2px;
         }
 
@@ -86,18 +80,19 @@
             z-index: 110;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 65px; height: 65px;
-            background: rgba(0,0,0,0.8);
+            width: 75px; height: 75px;
+            background: rgba(0,0,0,0.85);
             border: 2px solid var(--gold);
             border-radius: 50%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 26px;
-            font-weight: 900;
-            color: #fff;
             backdrop-filter: blur(10px);
         }
+
+        .res-val { font-size: 24px; font-weight: 900; color: #fff; }
+        .res-label { font-size: 9px; color: var(--gold); font-weight: 700; text-transform: uppercase; }
 
         .wheel-container {
             position: absolute;
@@ -113,7 +108,7 @@
             align-items: center;
         }
 
-        .num-white { font-size: 13px; font-weight: 500; color: #fff; }
+        .num-white { font-size: 15px; font-weight: 900; color: #fff; }
 
         .text-index {
             font-size: 16px;
@@ -124,81 +119,83 @@
 
         .text-index.winner {
             color: var(--gold);
-            transform: scale(1.4);
+            transform: scale(1.5);
             text-shadow: 0 0 20px var(--gold);
         }
 
         .btn-play {
-            margin-top: 30px;
+            margin-top: 40px;
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 15px 60px;
+            padding: 15px 70px;
             border-radius: 50px;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 900;
             cursor: pointer;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
         }
 
-        .btn-play:disabled { background: #444; color: #888; }
+        .btn-play:disabled { background: #444; color: #888; cursor: not-allowed; }
 
-        /* Dialog/Modal Styles */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: #1a1a1a;
+            background: #111;
             padding: 30px;
             border-radius: 20px;
-            border: 1px solid var(--gold);
+            border: 2px solid var(--gold);
             text-align: center;
-            max-width: 300px;
+            width: 280px;
         }
 
         .modal-btn {
             background: var(--gold);
             border: none;
-            padding: 10px 25px;
-            margin: 10px;
-            border-radius: 5px;
-            font-weight: 800;
+            padding: 12px 30px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-weight: 900;
             cursor: pointer;
+            width: 100%;
         }
 
-        .modal-btn.cancel { background: #666; color: #fff; }
+        .modal-btn.cancel { background: #333; color: #fff; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="status-bar">
-        <div class="balance-box">BALANS: <span id="userBalance">100</span> HTG</div>
-        <select id="betNumber" class="bet-selector">
-            </select>
+        <select id="betNumber" class="bet-selector"></select>
     </div>
 
     <div class="watch-body">
         <div class="needle-main"></div>
-        <div class="result-fixed-slot" id="digitalDisplay">P</div>
+        <div class="result-fixed-slot">
+            <span class="res-label">Nimewo</span>
+            <span id="digitalDisplay" class="res-val">--</span>
+        </div>
         <div class="dial-plate">
             <div id="wheelO" class="wheel-container"></div>
             <div id="wheelI" class="wheel-container" style="width: 240px; height: 240px; left: 70px; top: 70px;"></div>
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="showPaymentDialog()">Peye 5G & Vire</button>
+    <button class="btn-play" id="spinBtn" onclick="showPaymentDialog()">Vire (5 HTG)</button>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <h3>PWOTOKÒL PEMAN</h3>
-            <p>Èske w dakò peye 5 HTG pou vire roulèt la?</p>
+            <h3 style="color:var(--gold)">KONFIME</h3>
+            <p>Peye 5 HTG pou vire?</p>
             <button class="modal-btn" onclick="confirmPayment()">WI, PEYE</button>
             <button class="modal-btn cancel" onclick="closeModal('payModal')">ANILE</button>
         </div>
@@ -206,27 +203,26 @@
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h2 id="resTitle">REZILTA</h2>
-            <p id="resMsg"></p>
+            <h2 id="resTitle" style="margin-top:0"></h2>
+            <p id="resMsg" style="font-size: 18px;"></p>
             <button class="modal-btn" onclick="closeModal('resultModal')">OK</button>
         </div>
     </div>
 
     <script>
-        let balance = 100;
         const betCost = 5;
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
-        const strategicMiddle = [10, 25, 0, 18, 5, 21, 14, 2, 29, 7, 30, 12, 3, 22, 9, 31, 1, 20, 15, 27, 6, 33, 11, 24, 16, 13, 19, 8, 23, 4, 28, 17];
+        const strategicMiddle = [1, 5, 2, 10, 3, 1, 2, 5, 1, 20, 2, 1, 5, 1, 10, 2, 5, 1, 2, 50, 1, 5, 2, 10, 1, 5, 2, 1, 10, 2, 5, 1]; // Miltiplikatè
+        
         const total = ordinaryOrder.length;
         const deg = 360 / total;
 
         function format(n) { return n < 10 ? '0' + n : n; }
 
-        // Popile Select la
         const select = document.getElementById('betNumber');
         for(let i=0; i<37; i++) {
             let opt = document.createElement('option');
-            opt.value = i; opt.innerText = "Chwazi Nimewo: " + format(i);
+            opt.value = i; opt.innerText = "PARI SOU: " + format(i);
             select.appendChild(opt);
         }
 
@@ -237,6 +233,7 @@
             let angleRad = (i * deg - 90) * (Math.PI / 180);
             let x = 165 * Math.cos(angleRad);
             let y = 165 * Math.sin(angleRad);
+            el.id = 'num-' + i;
             el.innerText = format(ordinaryOrder[i]);
             el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
             document.getElementById('wheelO').appendChild(el);
@@ -245,8 +242,8 @@
             container.className = 'number-slot';
             let txt = document.createElement('div');
             txt.className = 'text-index';
-            txt.id = 'mid-' + i;
-            txt.innerText = format(strategicMiddle[i]);
+            txt.id = 'mult-' + i;
+            txt.innerText = 'x' + strategicMiddle[i];
             let xI = 90 * Math.cos(angleRad);
             let yI = 90 * Math.sin(angleRad);
             container.style.transform = `translate(calc(-50% + ${xI}px), calc(-50% + ${yI}px)) rotate(${i * deg}deg)`;
@@ -255,7 +252,6 @@
         }
 
         function showPaymentDialog() {
-            if(balance < betCost) return alert("Balans ou twò fèb!");
             document.getElementById('payModal').style.display = 'flex';
         }
 
@@ -263,15 +259,13 @@
 
         function confirmPayment() {
             closeModal('payModal');
-            balance -= betCost;
-            document.getElementById('userBalance').innerText = balance;
             startSpin();
         }
 
         let rotO = 0; let rotI = 0;
         function startSpin() {
             document.getElementById('spinBtn').disabled = true;
-            document.querySelectorAll('.text-index').forEach(t => t.classList.remove('winner'));
+            document.querySelectorAll('.text-index, .num-white').forEach(t => t.style.color = '');
             document.getElementById('digitalDisplay').innerText = "••";
 
             const winIdxO = Math.floor(Math.random() * total);
@@ -284,29 +278,25 @@
             document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
 
             setTimeout(() => {
-                const winner = document.getElementById('mid-' + winIdxI);
-                const winVal = parseInt(winner.innerText);
+                const winNum = ordinaryOrder[winIdxO];
+                const winMult = strategicMiddle[winIdxI];
                 const userChoice = parseInt(document.getElementById('betNumber').value);
                 
-                winner.classList.add('winner');
-                document.getElementById('digitalDisplay').innerText = format(winVal);
+                document.getElementById('digitalDisplay').innerText = format(winNum);
                 document.getElementById('spinBtn').disabled = false;
 
-                // Tcheke si li genyen
-                if(winVal === userChoice) {
-                    let pwi = 50; // Genyen 50 HTG
-                    balance += pwi;
-                    document.getElementById('userBalance').innerText = balance;
-                    showResult("OU GENYEN!", `Chif la te ${winVal}. Ou resevwa ${pwi} HTG!`);
+                if(winNum === userChoice) {
+                    let totalWin = betCost * winMult;
+                    showResult("BRAVO!", `Ou jwenn ${format(winNum)}!<br>Miltiplikatè: x${winMult}<br><b style="color:var(--gold)">Ou genyen ${totalWin} HTG!</b>`);
                 } else {
-                    showResult("OU PÈDI", `Chif la te ${winVal}. Eseye ankò!`);
+                    showResult("DOMAJ", `Chif la se te ${format(winNum)}.<br>Miltiplikatè a te x${winMult}.<br>Eseye ankò!`);
                 }
             }, 7500);
         }
 
         function showResult(title, msg) {
-            document.getElementById('resTitle').innerText = title;
-            document.getElementById('resMsg').innerText = msg;
+            document.getElementById('resTitle').innerHTML = title;
+            document.getElementById('resMsg').innerHTML = msg;
             document.getElementById('resultModal').style.display = 'flex';
         }
     </script>
