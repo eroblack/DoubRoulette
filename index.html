@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Clean Mechanic</title>
+    <title>Eroblack Swa & Piti</title>
     <style>
         body {
             background: #f4f1ea;
@@ -45,7 +45,7 @@
             height: 190px;
             border-radius: 50%;
             background: #b5a36d;
-            border: 5px solid #2b2b2b;
+            border: 4px solid #2b2b2b;
             transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
         }
@@ -60,7 +60,7 @@
             font-weight: bold;
         }
 
-        /* Chif blan sou wou nwa - Style Normal */
+        /* Gwo Chif sou wou nwa */
         .outer-num {
             color: #ffffff;
             font-size: 16px;
@@ -68,12 +68,13 @@
             height: 30px;
         }
 
-        /* Chif nwa sou jant lò - Style Normal */
+        /* TI CHIF MILTIPLIKATÈ (Pi Piti e Byen Egui) */
         .inner-num {
-            color: #1a1a1a;
-            font-size: 13px;
-            width: 25px;
-            height: 25px;
+            color: rgba(0, 0, 0, 0.7); /* Yon nwa ki yon ti jan transparan pou l dous */
+            font-size: 10px; /* Isit la nou fè l pi piti */
+            width: 20px;
+            height: 20px;
+            font-weight: 500; /* Mwens gra pou l parèt pi fen */
         }
 
         .indicator {
@@ -82,7 +83,6 @@
             z-index: 20;
             color: #2b2b2b;
             font-size: 35px;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
         }
 
         .controls { margin-top: 30px; }
@@ -90,12 +90,10 @@
         input {
             padding: 12px;
             border: 2px solid #b5a36d;
-            background: white;
             border-radius: 8px;
             width: 60px;
             font-size: 18px;
             text-align: center;
-            font-weight: bold;
         }
 
         button {
@@ -109,16 +107,12 @@
             cursor: pointer;
             margin-top: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: 0.3s;
         }
-
-        button:active { transform: scale(0.95); }
 
         #status {
             margin-top: 25px;
             font-size: 18px;
-            color: #2b2b2b;
-            min-height: 1.5em;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -133,7 +127,7 @@
     <div class="controls">
         <input type="number" id="chwa" value="7" min="1" max="32">
         <br>
-        <button onclick="vireMekanikSwa()">VIRE ROULETTE LA</button>
+        <button onclick="virePwo()">VIRE ROULETTE</button>
     </div>
 
     <div id="status"></div>
@@ -142,7 +136,7 @@
         const total = 32;
         const deg = 360 / total;
 
-        // Jenere tout 32 chif sou wou deyò a (Dwat epi Normal)
+        // Chif Deyò (Normal)
         for(let i = 0; i < total; i++) {
             let n = document.createElement('div');
             n.className = 'number outer-num';
@@ -150,12 +144,11 @@
             let x = 140 * Math.cos(angleRad);
             let y = 140 * Math.sin(angleRad);
             n.innerText = i + 1;
-            // rotate(0deg) kenbe chif yo dwat pou je a
             n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(0deg)`;
             document.getElementById('wheelO').appendChild(n);
         }
 
-        // Jenere tout chif sou wou mitan an (Dwat epi Normal)
+        // Chif Mitan (Pi Piti pou ka Bèl)
         for(let i = 0; i < total; i++) {
             let n = document.createElement('div');
             n.className = 'number inner-num';
@@ -169,12 +162,11 @@
 
         let curO = 0; let curI = 0;
 
-        function vireMekanikSwa() {
-            const status = document.getElementById('status');
+        function virePwo() {
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            status.innerText = "Roulette a ap vire...";
+            document.getElementById('status').innerText = "Vire ap fèt...";
 
             curO += 1440 + (360 - (resO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${curO}deg)`;
@@ -184,7 +176,7 @@
                 document.getElementById('wheelI').style.transform = `rotate(${curI}deg)`;
                 
                 setTimeout(() => {
-                    status.innerHTML = `REZILTA: <b>${resO + 1}</b> | MILTIPLIKATÈ: <b>X${resI}</b>`;
+                    document.getElementById('status').innerHTML = `RESI : <b>${resO + 1}</b> | MILT : <b>X${resI}</b>`;
                 }, 5000);
             }, 800);
         }
