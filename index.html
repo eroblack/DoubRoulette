@@ -57,7 +57,6 @@
     </div>
 
     <script>
-        // Fonksyon pon pou kominikasyon
         function sendToApp(bwat, val) {
             if (window.Android) { window.Android.voyeKòb(bwat, val.toString()); }
             if (window.SketchwareInterface) { window.SketchwareInterface.voyeKòb(bwat + ":" + val); }
@@ -87,12 +86,8 @@
 
         function processEroblackPayment() {
             closeModal('payModal');
-            // Voye demann peman 5 HTG
+            // Voye done peye a epi kòmanse vire imedyatman
             sendToApp("peye", "5");
-        }
-
-        // Fonksyon sa a dwe rele depi nan Android (Java) lè peman an fin trete
-        function onPaymentSuccess() {
             startSpin();
         }
 
@@ -111,7 +106,6 @@
                 
                 if(winNum === userChoice) {
                     const payout = 125;
-                    // Voye genyen 125 HTG bay Android
                     sendToApp("genyen", payout.toString());
                     showResult("BRAVO!", `Ou genyen ${payout} HTG!`);
                 } else {
