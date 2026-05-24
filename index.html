@@ -22,7 +22,6 @@
             font-size: 24px;
         }
 
-        /* Kontenè a elaji pou ba egwi yo espas deyò a */
         .roulette-container {
             position: relative;
             width: 390px;
@@ -33,10 +32,10 @@
             align-items: center;
         }
 
-        /* EGWI DEYÒ ANLO (Wouj - Pou Wou Deyò a) */
+        /* EGWI DEYÒ ANLO (Wouj) */
         .indicator-outer-top {
             position: absolute;
-            top: 0px; /* Li nèt deyò wou a */
+            top: 0px;
             z-index: 10;
             width: 0;
             height: 0;
@@ -46,10 +45,10 @@
             filter: drop-shadow(0 0 8px #ff0055);
         }
 
-        /* EGWI DEYÒ ANBA (Ble - Pou Wou Mitan an) */
+        /* EGWI DEYÒ ANBA (Ble) */
         .indicator-inner-bottom {
             position: absolute;
-            bottom: 0px; /* Li nèt deyò wou a anba */
+            bottom: 0px;
             z-index: 10;
             width: 0;
             height: 0;
@@ -59,7 +58,7 @@
             filter: drop-shadow(0 0 8px #00ffff);
         }
 
-        /* Wou Deyò */
+        /* Wou Deyò - Tranzisyon 4 segonn */
         .wheel-outer {
             position: absolute;
             width: 330px;
@@ -67,11 +66,11 @@
             border-radius: 50%;
             border: 6px solid #ffd700;
             background: #111;
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+            transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
             box-shadow: 0 0 25px rgba(241, 196, 15, 0.4);
         }
 
-        /* Wou Mitan Laj */
+        /* Wou Mitan - Tranzisyon 4 segonn tou */
         .wheel-inner {
             position: absolute;
             width: 230px;
@@ -79,7 +78,7 @@
             border-radius: 50%;
             border: 5px solid #00ffff;
             background: #1a1a1a;
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
+            transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
         }
@@ -92,13 +91,12 @@
             left: 0;
         }
 
-        /* MODÈL CHIF YO: Byen gwo, byen klè, san okenn lèt */
         .number {
             position: absolute;
             width: 40px;
             height: 40px;
             font-weight: 900; 
-            font-size: 22px;  /* Maksimòm gwosè pou l parèt byen klè */
+            font-size: 22px;  
             display: flex;
             justify-content: center;
             align-items: center;
@@ -110,8 +108,9 @@
         .num-red { color: #ff3333; text-shadow: 0 0 5px #ff0000; }
         .num-black { color: #ffffff; text-shadow: 0 0 5px #000; }
         
-        /* Koulè Wou Mitan */
-        .num-inner-style { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+        /* Modèl Chif Klasik pou Wou Mitan an (Stil Lò ak Blan tradisyonèl) */
+        .num-classic-gold { color: #ffd700; text-shadow: 0 0 4px rgba(255, 215, 0, 0.6); }
+        .num-classic-white { color: #f5f5f5; text-shadow: 0 0 4px #000; }
         .num-zero { color: #ff0055; text-shadow: 0 0 8px #ff0055; font-size: 24px !important; }
 
         .controls { margin-top: 15px; }
@@ -153,7 +152,7 @@
             border: 1px solid rgba(0, 255, 0, 0.3);
         }
         .highlight { font-weight: bold; color: #00ff00; font-size: 22px; }
-        .highlight-mult { font-weight: bold; color: #00ffff; font-size: 22px; }
+        .highlight-mult { font-weight: bold; color: #ffd700; font-size: 22px; }
     </style>
 </head>
 <body>
@@ -161,7 +160,6 @@
     <h2>EROBLACK ROULETTE PRO 32</h2>
 
     <div class="roulette-container">
-        <!-- Egui yo kounye a fiks DEYÒ nèt ale -->
         <div class="indicator-outer-top"></div>
         <div class="indicator-inner-bottom"></div>
         
@@ -170,7 +168,7 @@
             <div class="wheel-text" id="outerTexts"></div>
         </div>
         
-        <!-- Wou Mitan Laj -->
+        <!-- Wou Mitan -->
         <div class="wheel-inner" id="innerWheel">
             <div class="wheel-text" id="innerTexts"></div>
         </div>
@@ -194,44 +192,39 @@
         const outerTexts = document.getElementById('outerTexts');
         const innerTexts = document.getElementById('innerTexts');
 
-        // Reyon kalkile pou gwo chif yo rete byen santre nan zòn pa yo
         const reyonDeyo = 138;  
         const reyonAndedan = 90; 
 
-        // Jenere Wou Deyò (1-32)
+        // Jenere Wou Deyò
         for(let i = 0; i < totalNimewo; i++) {
             let angleRad = (i * degrePaSeksyon - 90) * (Math.PI / 180); 
-            
             let divOuter = document.createElement('div');
             divOuter.className = `number ${i % 2 === 0 ? 'num-red' : 'num-black'}`;
             divOuter.innerText = i + 1;
             
             let x = reyonDeyo * Math.cos(angleRad);
             let y = reyonDeyo * Math.sin(angleRad);
-            
             let rotChif = i * degrePaSeksyon;
             divOuter.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rotChif}deg)`;
             outerTexts.appendChild(divOuter);
         }
 
-        // Jenere Wou Mitan Laj (0-31) -> PA GEN "X" ANKÒ!
+        // Jenere Wou Mitan (Chif Klasik Lò / Blan)
         for(let i = 0; i < totalNimewo; i++) {
             let angleRad = (i * degrePaSeksyon - 90) * (Math.PI / 180);
-            
             let divInner = document.createElement('div');
             divInner.className = 'number';
             
             if (i === 0) {
                 divInner.classList.add('num-zero');
             } else {
-                divInner.classList.add('num-inner-style');
+                // Modèl klasik: Altene ant Lò ak Blan
+                divInner.classList.add(i % 2 === 0 ? 'num-classic-gold' : 'num-classic-white');
             }
-            // Isit la mwen retire lèt "X" la nèt, li afiche sèlman chif la
             divInner.innerText = i; 
             
             let x = reyonAndedan * Math.cos(angleRad);
             let y = reyonAndedan * Math.sin(angleRad);
-            
             let rotChif = i * degrePaSeksyon;
             divInner.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rotChif}deg)`;
             innerTexts.appendChild(divInner);
@@ -255,8 +248,8 @@
 
             const btn = document.getElementById('spinBtn');
             btn.disabled = true;
-            document.getElementById('status').innerHTML = "Wou yo ap vire ak gwo vitès... 🎰";
-
+            
+            // Rele rezilta yo an kachèt depi nan kòmansman
             const endèksDeyoGayan = Math.floor(Math.random() * totalNimewo); 
             const endèksAndedanGayan = Math.floor(Math.random() * totalNimewo); 
 
@@ -264,35 +257,43 @@
             const miltiplikatèGayan = endèksAndedanGayan; 
 
             const fwaVire = 5 * 360; 
-            
-            // Kalkil wotasyon yo pafè
+
+            // ETAP 1: Sèlman Wou Deyò a kòmanse vire
+            document.getElementById('status').innerHTML = "Wou nimewo yo ap vire... 🔴";
             kouranDegreOuter += fwaVire + (360 - (endèksDeyoGayan * degrePaSeksyon));
-            kouranDegreInner -= (fwaVire + (180 + (endèksAndedanGayan * degrePaSeksyon)));
-
             document.getElementById('outerWheel').style.transform = `rotate(${kouranDegreOuter}deg)`;
-            document.getElementById('innerWheel').style.transform = `rotate(${kouranDegreInner}deg)`;
 
+            // ETAP 2: Apre 4 segonn (lè gwo wou a fin kanpe pafè)
             setTimeout(() => {
-                btn.disabled = false;
+                document.getElementById('status').innerHTML = `🎯 Nimewo chans lan se <span class="highlight">${chifGayan}</span>! Kounye a, miltiplikatè a ap demare... 🎰`;
                 
-                let teGenyen = (chwaItilizate === chifGayan);
-                let mesaj = "";
+                // Wou Mitan an demare apre
+                kouranDegreInner -= (fwaVire + (180 + (endèksAndedanGayan * degrePaSeksyon)));
+                document.getElementById('innerWheel').style.transform = `rotate(${kouranDegreInner}deg)`;
 
-                if (teGenyen) {
-                    if (miltiplikatèGayan === 0) {
-                        mesaj = `🎯 Ou jwenn nimewo <span class="highlight">${chifGayan}</span> lan! <br>Men, miltiplikatè a bay <span class="num-zero">0</span>... Ou touche 0 fwa mize w lan! 😮`;
-                        sendToApp("roulette_genyen", "0");
+                // ETAP 3: Apre 4 lòt segonn (lè wou mitan an fin kanpe tou)
+                setTimeout(() => {
+                    btn.disabled = false;
+                    let teGenyen = (chwaItilizate === chifGayan);
+                    let mesaj = "";
+
+                    if (teGenyen) {
+                        if (miltiplikatèGayan === 0) {
+                            mesaj = `🎯 Ou jwenn nimewo <span class="highlight">${chifGayan}</span> lan! <br>Men, miltiplikatè a bay <span class="num-zero">0</span>... Ou touche 0 fwa mize w lan! 😮`;
+                            sendToApp("roulette_genyen", "0");
+                        } else {
+                            mesaj = `🎉 **BRAVO!** Nimewo: <span class="highlight">${chifGayan}</span> | Miltiplikatè: <span class="highlight-mult">X${miltiplikatèGayan}</span>!`;
+                            sendToApp("roulette_genyen", miltiplikatèGayan);
+                        }
                     } else {
-                        mesaj = `🎉 **BRAVO!** Wou a bay nimewo <span class="highlight">${chifGayan}</span>!<br>Miltiplikatè ou se: <span class="highlight-mult">X${miltiplikatèGayan}</span>!`;
-                        sendToApp("roulette_genyen", miltiplikatèGayan);
+                        mesaj = `😞 **Ou pèdi!** Wou a bay nimewo <span class="highlight" style="color:#ff3333">${chifGayan}</span>.<br>Miltiplikatè a te soti: ${miltiplikatèGayan}.`;
+                        sendToApp("roulette_pedi", "0");
                     }
-                } else {
-                    mesaj = `😞 **Ou pèdi!** Wou a bay nimewo <span class="highlight" style="color:#ff3333">${chifGayan}</span>.<br>Miltiplikatè a te soti: ${miltiplikatèGayan}.`;
-                    sendToApp("roulette_pedi", "0");
-                }
 
-                document.getElementById('status').innerHTML = mesaj;
-            }, 5000);
+                    document.getElementById('status').innerHTML = mesaj;
+                }, 4000); // Tan pou wou mitan an fini
+
+            }, 4000); // Tan pou gwo wou a fini an premye
         }
     </script>
 </body>
