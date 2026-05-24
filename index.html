@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Mechanic Roulette</title>
+    <title>Brandson Swa Edition</title>
     <style>
         body {
-            background: #f4f1ea; /* Koulè papye vintage */
-            color: #333;
-            font-family: 'Courier New', Courier, monospace;
+            background: #f4f1ea;
+            color: #4a4a4a;
+            font-family: 'Arial', sans-serif;
             text-align: center;
             margin: 0;
             padding: 10px;
@@ -16,193 +16,192 @@
 
         .main-wrapper {
             position: relative;
-            width: 400px;
-            margin: 20px auto;
+            width: 380px;
+            margin: 30px auto;
         }
 
-        /* Banner sou kote yo (Style Logo a) */
+        /* Banner sou kote yo */
         .side-banner {
             position: absolute;
             top: 50%;
-            width: 60px;
-            height: 40px;
+            width: 50px;
+            height: 35px;
             background: #4a4a4a;
-            color: white;
+            color: #b5a36d;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
             z-index: 5;
             transform: translateY(-50%);
-            border-radius: 3px;
+            font-size: 14px;
         }
-        .left-b { left: 0; }
-        .right-b { right: 0; }
+        .left-b { left: -10px; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15% 50%); }
+        .right-b { right: -10px; clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%); }
 
         .roulette-container {
             position: relative;
-            width: 360px;
-            height: 360px;
+            width: 350px;
+            height: 350px;
             margin: 0 auto;
-            background: #fff;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 10px solid #fff;
+            border: 2px solid #b5a36d;
         }
 
-        /* Kawotchou (Outer Wheel) */
+        /* Wou Kawotchou (Outer) */
         .wheel-outer {
             position: absolute;
             width: 330px;
             height: 330px;
             border-radius: 50%;
-            background: #4a4a4a; /* Koulè kawotchou nan foto a */
-            border: 8px solid #333;
-            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #4a4a4a;
+            border: 12px solid #333;
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
 
-        /* Jant Lò (Inner Wheel) */
+        /* Wou Jant Lò (Inner) */
         .wheel-inner {
             position: absolute;
-            width: 190px;
-            height: 190px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            background: #b5a36d; /* Koulè lò logo a */
-            border: 6px solid #4a4a4a;
-            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+            background: #b5a36d;
+            border: 5px solid #4a4a4a;
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
             z-index: 2;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
         }
 
-        .text-label {
+        /* Stil Chif Swa yo */
+        .number {
             position: absolute;
-            color: white;
-            font-weight: bold;
-            letter-spacing: 3px;
-            font-size: 14px;
-        }
-        .top-label { top: 15px; }
-        .bottom-label { bottom: 15px; }
-
-        .bi {
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #fff;
-            color: #4a4a4a;
+            left: 50%;
+            top: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: 900;
-            left: 50%; top: 50%;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            font-weight: bold;
         }
 
-        .bi-inner {
-            width: 28px; height: 28px;
-            background: #4a4a4a;
-            color: #b5a36d;
+        /* Chif blan sou kawotchou nwa */
+        .outer-num {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        /* Chif nwa sou jant lò */
+        .inner-num {
+            color: #333;
             font-size: 12px;
+        }
+
+        .brand-text {
+            position: absolute;
+            width: 100%;
+            color: white;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            z-index: 3;
+            text-shadow: 1px 1px 2px #000;
         }
 
         .indicator {
             position: absolute;
-            top: -10px;
+            top: -20px;
             z-index: 20;
-            font-size: 25px;
-            color: #b5a36d;
+            color: #4a4a4a;
+            font-size: 30px;
         }
 
         button {
             background: #4a4a4a;
             color: #b5a36d;
-            padding: 15px 30px;
-            border: 3px solid #b5a36d;
+            padding: 12px 40px;
+            border: 2px solid #b5a36d;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            text-transform: uppercase;
+            margin-top: 25px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <h2 style="color:#4a4a4a; margin-top: 5px;">MECHANIC SERVICE</h2>
-
     <div class="main-wrapper">
         <div class="side-banner left-b">20</div>
         <div class="side-banner right-b">20</div>
 
-        <div class="roulette-container" id="roller">
+        <div class="roulette-container">
             <div class="indicator">▼</div>
             
-            <div class="wheel-outer" id="wheelO">
-                <div class="text-label top-label">BRANDSON</div>
-                <div class="text-label bottom-label">CAR SERVICE</div>
-            </div>
-            
+            <div class="brand-text" style="top: 40px;">BRANDSON</div>
+            <div class="brand-text" style="bottom: 40px; font-size: 12px; letter-spacing: 2px;">CAR SERVICE</div>
+
+            <div class="wheel-outer" id="wheelO"></div>
             <div class="wheel-inner" id="wheelI"></div>
         </div>
     </div>
 
     <div class="controls">
-        <input type="number" id="chwa" value="10" style="padding:10px; width:50px; text-align:center;">
-        <button onclick="vireMekanik()">Lanse Kawotchou a</button>
+        <input type="number" id="chwa" value="7" style="padding:10px; border:1px solid #b5a36d; width:60px; text-align:center;">
+        <br>
+        <button onclick="vireSwa()">DEMARE SÈVIS</button>
     </div>
 
-    <div id="status" style="margin-top:15px; font-weight:bold;">Sistèm pare pou sèvis...</div>
+    <div id="status" style="margin-top:20px; font-weight:bold; text-transform: uppercase; font-size: 14px;"></div>
 
     <script>
         const total = 32;
         const deg = 360 / total;
 
-        // Boul sou Kawotchou a
+        // Mete Chif sou Kawotchou (Swa)
         for(let i = 0; i < total; i++) {
-            let bi = document.createElement('div');
-            bi.className = 'bi';
+            let n = document.createElement('div');
+            n.className = 'number outer-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 135 * Math.cos(angleRad);
-            let y = 135 * Math.sin(angleRad);
-            bi.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-            bi.innerText = i + 1;
-            document.getElementById('wheelO').appendChild(bi);
+            let x = 125 * Math.cos(angleRad);
+            let y = 125 * Math.sin(angleRad);
+            // Nou sèlman mete chif nan espas kote "BRANDSON" pa ye a
+            if (i > 3 && i < 12 || i > 20 && i < 28) { 
+                n.innerText = i + 1;
+            } else {
+                n.innerText = "•"; // Ti pwen pou espas yo rete swa
+            }
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
+            document.getElementById('wheelO').appendChild(n);
         }
 
-        // Boul sou Jant Lò a
+        // Mete Chif sou Jant Lò (Swa)
         for(let i = 0; i < total; i++) {
-            let bi = document.createElement('div');
-            bi.className = 'bi bi-inner';
+            let n = document.createElement('div');
+            n.className = 'number inner-num';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
             let x = 70 * Math.cos(angleRad);
             let y = 70 * Math.sin(angleRad);
-            bi.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-            bi.innerText = i;
-            document.getElementById('wheelI').appendChild(bi);
+            n.innerText = i;
+            n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
+            document.getElementById('wheelI').appendChild(n);
         }
 
-        let rO = 0; let rI = 0;
+        let curO = 0; let curI = 0;
 
-        function vireMekanik() {
+        function vireSwa() {
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            rO += 1800 + (360 - (resO * deg));
-            document.getElementById('wheelO').style.transform = `rotate(${rO}deg)`;
+            curO += 1440 + (360 - (resO * deg));
+            document.getElementById('wheelO').style.transform = `rotate(${curO}deg)`;
 
             setTimeout(() => {
-                rI -= (1800 + (180 + (resI * deg)));
-                document.getElementById('wheelI').style.transform = `rotate(${rI}deg)`;
+                curI -= (1440 + (180 + (resI * deg)));
+                document.getElementById('wheelI').style.transform = `rotate(${curI}deg)`;
                 
                 setTimeout(() => {
                     document.getElementById('status').innerHTML = 
-                    `Kliyan an jwenn: <b style="color:#b5a36d">${resO + 1}</b> | Milt: <b>X${resI}</b>`;
+                    `Sèvis fini: <span style="color:#b5a36d">Chif ${resO + 1}</span> | Miltiplikatè: <span style="color:#333">X${resI}</span>`;
                 }, 5000);
             }, 1000);
         }
