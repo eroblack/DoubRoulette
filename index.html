@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eroblack Roulette - Fix Precision</title>
+    <title>Eroblack Roulette - 25x Payout</title>
     <style>
         :root {
             --bg: #050505;
             --gold: #d4af37;
             --silver: #ffffff;
+            --accent: #ff0033;
         }
 
         body {
@@ -48,7 +49,6 @@
             border-radius: 50%; overflow: hidden;
         }
 
-        /* Egwi a fiks anlè (0 degre) */
         .needle {
             position: absolute; top: -5px; left: 50%;
             transform: translateX(-50%);
@@ -117,25 +117,32 @@
         </div>
     </div>
 
-    <button class="btn-play" id="spinBtn" onclick="confirmPlay()">Vire (5 HTG)</button>
+    <button class="btn-play" id="spinBtn" onclick="initiatePayment()">Vire (5 HTG)</button>
+
+    <div id="payModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--gold)">KONFIME</h3>
+            <p>Debite 5 HTG sou balans Eroblack ou?</p>
+            <button class="modal-btn" onclick="processEroblackPayment()">WI, PEYE</button>
+            <button class="modal-btn" style="background:#333; color:#fff" onclick="closeModal('payModal')">ANILE</button>
+        </div>
+    </div>
 
     <div id="resModal" class="modal">
         <div class="modal-content">
             <h2 id="resTitle" style="margin-top:0"></h2>
             <p id="resMsg" style="font-size: 18px;"></p>
-            <button class="modal-btn" onclick="closeModal()">OK</button>
+            <button class="modal-btn" onclick="closeModal('resModal')">OK</button>
         </div>
     </div>
 
     <script>
-        // Lòd ofisyèl roulette (32 nimewo nan lis ou a)
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
         const total = ordinaryOrder.length;
-        const degStep = 360 / total; // Degre pou chak chif
+        const degStep = 360 / total;
+        let totalRotation = 0;
 
         const wheel = document.getElementById('wheel');
-        
-        // Mete nimewo yo sou wou a
         for(let i = 0; i < total; i++) {
             let angle = i * degStep;
             let rad = (angle - 90) * (Math.PI / 180);
@@ -146,14 +153,28 @@
             wheel.appendChild(el);
         }
 
-        let totalRotation = 0;
-
-        function confirmPlay() {
+        function initiatePayment() {
             const val = document.getElementById('userBet').value;
             if(val === "" || val < 0 || val > 36) {
                 alert("Chwazi yon nimewo ant 0 ak 36!");
                 return;
             }
+            document.getElementById('payModal').style.display = 'flex';
+        }
+
+        function processEroblackPayment() {
+            closeModal('payModal');
+            // Isit la nou rele entèfas Android la pou verifye lajan
+            if (typeof Eroblack !== "undefined") {
+                Eroblack.requestPayment(5); // Apèl nan Java
+            } else {
+                console.log("Pwotokòl Eroblack pa detekte - Simulation kòmanse");
+                startSpin();
+            }
+        }
+
+        // Fonksyon sa a pral rele depi nan Android lè peman an reyisi
+        function onPaymentSuccess() {
             startSpin();
         }
 
@@ -163,34 +184,28 @@
             btn.disabled = true;
             center.innerText = "••";
 
-            // 1. Chwazi Index ki genyen an
             const winIdx = Math.floor(Math.random() * total);
-            
-            // 2. Kalkile wotasyon egzak: 
-            // Nou vle winIdx la rive nan 0 degre (anlè). 
-            // Sa vle di nou dwe vire wou a nan sans envès (-winIdx * degStep) 
-            // plis kèk tò konplè pou bèlte (3600 degre = 10 tò).
             const extraSpins = 3600; 
-            const finalAngle = extraSpins - (winIdx * degStep);
-            
-            // Nou ajoute finalAngle sou totalRotation pou wou a pa tounen dèyè
             totalRotation += (extraSpins + (360 - (totalRotation % 360)) - (winIdx * degStep));
-
             wheel.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
                 const winNum = ordinaryOrder[winIdx];
                 const userChoice = parseInt(document.getElementById('userBet').value);
-                
                 center.innerText = winNum;
                 btn.disabled = false;
 
                 if(winNum === userChoice) {
-                    showResult("BRAVO!", `Chif la se <b>${winNum}</b>.<br>Ou genyen 50 HTG!`);
+                    const payout = 5 * 25;
+                    // Voye genyen an nan Balans la via Eroblack Protocol
+                    if (typeof Eroblack !== "undefined") {
+                        Eroblack.addWinnings(payout);
+                    }
+                    showResult("BRAVO!", `Chif la se <b>${winNum}</b>.<br><span style="color:var(--gold)">OU GENYEN ${payout} HTG!</span>`);
                 } else {
                     showResult("DOMAJ", `Chif la se te <b>${winNum}</b>.<br>Eseye ankò!`);
                 }
-            }, 8200); // 8 segonn pou l fini vire
+            }, 8200);
         }
 
         function showResult(title, msg) {
@@ -199,8 +214,8 @@
             document.getElementById('resModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('resModal').style.display = 'none';
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
     </script>
 </body>
