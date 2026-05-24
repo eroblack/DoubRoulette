@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierre Lannier - Ordre Officiel</title>
+    <title>Pierre Lannier - Eroblack Pay</title>
     <style>
         :root {
             --burgundy: #6b001a;
@@ -21,6 +21,18 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+        }
+
+        /* Panèl Balans */
+        .balance-card {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
         }
 
         .watch-body {
@@ -46,17 +58,19 @@
             overflow: hidden;
         }
 
-        .needle {
+        /* Sèl Egwi anlè a */
+        .needle-main {
             position: absolute;
+            top: 5px;
             left: 50%;
             transform: translateX(-50%);
+            width: 4px;
+            height: 20px;
             background: #fff;
             z-index: 100;
+            box-shadow: 0 0 10px #fff;
+            border-radius: 2px;
         }
-        /* Gwo egwi kout pou lizibilite */
-        .needle-outer { top: 5px; width: 3px; height: 18px; box-shadow: 0 0 8px #fff; }
-        /* Ti egwi pou miltiplikatè */
-        .needle-inner { top: 90px; width: 2px; height: 15px; opacity: 0.8; }
 
         .result-fixed-slot {
             position: absolute;
@@ -64,15 +78,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 65px;
-            height: 65px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.1);
+            width: 70px;
+            height: 70px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid rgba(255,255,255,0.1);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 900;
             color: #fff;
             backdrop-filter: blur(10px);
@@ -96,55 +110,75 @@
         .num-white {
             color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
-            font-weight: 300;
+            font-weight: 500;
         }
 
+        /* CHIFFRE MITAN PWÈS GRA */
         .text-index {
-            font-size: 15px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.2);
+            font-size: 16px;
+            font-weight: 900; /* Pwès anpil */
+            color: rgba(255, 255, 255, 0.25);
             transition: all 0.4s ease;
+            letter-spacing: 1px;
         }
 
         .text-index.winner {
             color: #fff;
-            transform: scale(1.4);
+            transform: scale(1.5);
             text-shadow: 0 0 20px #fff;
         }
 
-        button {
+        .btn-play {
             margin-top: 40px;
             background: #fff;
+            color: #000;
             border: none;
-            padding: 15px 60px;
+            padding: 15px 70px;
             border-radius: 50px;
             text-transform: uppercase;
             letter-spacing: 5px;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
         }
-        button:active { transform: scale(0.95); }
+
+        .btn-play:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        #msg {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
+    <div class="balance-card">Balans: <span id="balance">100</span> HTG</div>
+
     <div class="watch-body">
-        <div class="needle needle-outer"></div>
-        <div class="needle needle-inner"></div>
+        <div class="needle-main"></div>
         <div class="result-fixed-slot" id="digitalDisplay">P</div>
         
         <div class="dial-plate">
             <div class="wheel-container" id="wheelO"></div>
-            <div class="wheel-container" id="wheelI" style="width: 220px; height: 220px; left: 90px; top: 90px;"></div>
+            <div class="wheel-container" id="wheelI" style="width: 240px; height: 240px; left: 80px; top: 80px;"></div>
         </div>
     </div>
 
-    <button onclick="spinLuxe()">Start</button>
+    <button class="btn-play" id="spinBtn" onclick="payAndSpin()">Vire (5G)</button>
+    <div id="msg">Miz: 5 HTG pou chak vire</div>
 
     <script>
-        // Lòd ofisyèl yon Roulette Ewopeyen (37 chif, men nou adapte l pou 32 ou mande a)
-        // Pou yon roulette 32, nou itilize yon lòd melanje pwofesyonèl:
+        // Lojik Balans Eroblack
+        let currentBalance = 100; 
+        const betAmount = 5;
+
         const ordinaryOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7];
         const total = ordinaryOrder.length;
         const deg = 360 / total;
@@ -153,23 +187,19 @@
             return num < 10 ? '0' + num : num;
         }
 
-        // Chif Deyò (Lòd Roulèt)
+        // Jenere Chif Deyò
         for(let i = 0; i < total; i++) {
             let el = document.createElement('div');
             el.className = 'number-slot num-white';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
             let x = 175 * Math.cos(angleRad);
             let y = 175 * Math.sin(angleRad);
-            
-            // Plase chif yo selon lòd roulèt òdinè a
             el.innerText = formatNumber(ordinaryOrder[i]);
-            
-            // Wotasyon chif la pou l toujou dwat parapò ak sant la
             el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${i * deg}deg)`;
             document.getElementById('wheelO').appendChild(el);
         }
 
-        // Chif Mitan (Miltiplikatè 00-31)
+        // Jenere Chif Mitan (Pwès & Gra)
         for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
             container.className = 'number-slot';
@@ -179,8 +209,8 @@
             txt.innerText = formatNumber(i);
             
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 85 * Math.cos(angleRad);
-            let y = 85 * Math.sin(angleRad);
+            let x = 95 * Math.cos(angleRad); 
+            let y = 95 * Math.sin(angleRad);
             
             container.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
             container.appendChild(txt);
@@ -189,6 +219,21 @@
 
         let rotO = 0; let rotI = 0;
 
+        function payAndSpin() {
+            if (currentBalance < betAmount) {
+                alert("Ou pa gen ase kòb!");
+                return;
+            }
+
+            // Pwotokòl Peman
+            currentBalance -= betAmount;
+            document.getElementById('balance').innerText = currentBalance;
+            document.getElementById('spinBtn').disabled = true;
+            document.getElementById('msg').innerText = "Tranzaksyon an kou...";
+
+            spinLuxe();
+        }
+
         function spinLuxe() {
             document.querySelectorAll('.text-index').forEach(t => t.classList.remove('winner'));
             document.getElementById('digitalDisplay').innerText = "••";
@@ -196,19 +241,21 @@
             const indexWinnerO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
 
-            // Wotasyon wou deyò
-            rotO += 2520 + (360 - (indexWinnerO * deg));
+            rotO += 2880 + (360 - (indexWinnerO * deg));
             document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
 
             setTimeout(() => {
-                // Wotasyon wou miltiplikatè
-                rotI -= (2520 + (180 + (resI * deg)));
+                rotI -= (2880 + (180 + (resI * deg)));
                 document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
                 
                 setTimeout(() => {
                     const winner = document.getElementById('val-' + resI);
                     winner.classList.add('winner');
                     document.getElementById('digitalDisplay').innerText = formatNumber(resI);
+                    document.getElementById('spinBtn').disabled = false;
+                    document.getElementById('msg').innerText = "Vire ankò pou 5 HTG";
+                    
+                    // Lojik genyen si ou vle ajoute l (Egzanp: si resI > 20, ou genyen 10 HTG)
                 }, 7000);
             }, 400);
         }
