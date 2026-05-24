@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Radio Edition</title>
+    <title>Luxury Watch Roulette</title>
     <style>
         :root {
-            --ios-blue: #007AFF;
-            --ios-bg: #f2f2f7;
-            --radio-border: #d1d1d6;
+            --gold: #d4af37;
+            --rose-gold: linear-gradient(135deg, #e5b299 0%, #b38b71 100%);
+            --dial-bg: radial-gradient(circle, #2c2c2c 0%, #000 100%);
+            --acier: linear-gradient(to bottom, #bdc3c7, #2c3e50);
         }
 
         body {
-            background-color: #e5e5ea;
-            color: #000;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f0f0f;
+            color: #d1d1d1;
+            font-family: 'Times New Roman', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,57 +23,63 @@
             margin: 0;
         }
 
-        .iphone-frame {
-            background: #fff;
-            width: 350px;
-            padding: 25px;
-            border-radius: 45px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .dynamic-island {
-            width: 110px;
-            height: 28px;
-            background: #000;
-            border-radius: 20px;
-            margin: 0 auto 25px;
-        }
-
-        .roulette-container {
+        /* Boîtier Montre la */
+        .watch-case {
             position: relative;
-            width: 320px;
-            height: 320px;
-            margin: 20px auto;
+            width: 380px;
+            height: 380px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.3);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Wou Deyò (Normal) */
-        .wheel-outer {
-            position: absolute;
-            width: 310px;
-            height: 310px;
+        /* Kadran anndan an */
+        .dial {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: var(--dial-bg);
             border-radius: 50%;
-            background: #fff;
-            border: 1px solid #efeff4;
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px solid #555;
+            overflow: hidden;
         }
 
-        /* Wou Mitan (Glass) */
+        .wheel-outer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        /* Wou santral la (Miltiplikatè) */
         .wheel-inner {
             position: absolute;
-            width: 185px;
-            height: 185px;
+            width: 200px;
+            height: 200px;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--gold);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.1, 1);
-            z-index: 2;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            z-index: 5;
+            transition: transform 6s cubic-bezier(0.15, 0, 0.15, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        /* Egwi Montre la */
+        .hand {
+            position: absolute;
+            top: 10px;
+            z-index: 100;
+            width: 2px;
+            height: 40px;
+            background: var(--gold);
+            box-shadow: 0 0 10px var(--gold);
         }
 
         .number {
@@ -83,99 +90,82 @@
             align-items: center;
         }
 
-        /* Chif Deyò (Minimal) */
-        .outer-num { 
-            color: #1c1c1e; 
-            font-size: 14px; 
-            font-weight: 500;
+        /* Chif Montre Luxe */
+        .num-lux {
+            color: #d4af37;
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
-        /* STYLE BOUTON RADIO POU MILTIPLIKATÈ */
-        .radio-node {
-            width: 22px;
-            height: 22px;
+        /* Radio Buttons (Miltiplikatè Style Repère) */
+        .radio-point {
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            border: 1.5px solid var(--radio-border);
-            background: #fff;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: transparent;
+            font-size: 8px;
+            color: #888;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 8.5px;
-            font-weight: 700;
-            color: #8e8e93;
-            transition: all 0.3s ease;
+            transition: all 0.5s;
         }
 
-        /* Lè miltiplikatè a chwazi (efè vizyèl) */
-        .radio-node.active {
-            border-color: var(--ios-blue);
-            color: var(--ios-blue);
-            background: rgba(0, 122, 255, 0.1);
+        .radio-point.winner {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 15px var(--gold);
+            border-color: #fff;
         }
 
-        .indicator {
+        .controls {
             position: absolute;
-            top: -15px;
-            z-index: 20;
-            width: 3px;
-            height: 25px;
-            background: var(--ios-blue);
-            border-radius: 4px;
-        }
-
-        .controls { margin-top: 35px; }
-
-        input {
-            border: none;
-            background: #f2f2f7;
-            padding: 12px;
-            border-radius: 12px;
-            width: 60px;
-            font-size: 18px;
+            bottom: -80px;
+            width: 100%;
             text-align: center;
-            outline: none;
         }
 
         button {
-            background-color: var(--ios-blue);
-            color: white;
-            border: none;
-            padding: 15px 70px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 10px 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.1s;
+            transition: 0.3s;
         }
 
-        button:active { transform: scale(0.97); opacity: 0.9; }
+        button:hover {
+            background: var(--gold);
+            color: black;
+        }
 
         #status {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #8e8e93;
-            letter-spacing: -0.2px;
+            margin-top: 15px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div class="iphone-frame">
-        <div class="dynamic-island"></div>
-        <h3 style="font-weight: 700; margin: 0; color: #1c1c1e;">Roulette Studio</h3>
-        
-        <div class="roulette-container">
-            <div class="indicator"></div>
+    <div class="watch-case">
+        <div class="hand"></div>
+        <div class="dial">
             <div class="wheel-outer" id="wheelO"></div>
             <div class="wheel-inner" id="wheelI"></div>
         </div>
 
         <div class="controls">
-            <input type="number" id="chwa" value="7" min="1" max="32">
-            <br>
-            <button onclick="vireiOS()">Spin</button>
-            <div id="status">Tap Spin to start</div>
+            <input type="number" id="chwa" value="12" style="background:none; border:1px solid #333; color:gold; padding:5px; width:40px; text-align:center;">
+            <br><br>
+            <button onclick="vireLuxe()">Lancer</button>
+            <div id="status">Chronographe Prêt</div>
         </div>
     </div>
 
@@ -183,61 +173,57 @@
         const total = 32;
         const deg = 360 / total;
 
-        // Kreye Chif Deyò yo
+        // Chif Deyò (Style Montre)
         for(let i = 0; i < total; i++) {
             let n = document.createElement('div');
-            n.className = 'number outer-num';
+            n.className = 'number num-lux';
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 132 * Math.cos(angleRad);
-            let y = 132 * Math.sin(angleRad);
+            let x = 150 * Math.cos(angleRad);
+            let y = 150 * Math.sin(angleRad);
             n.innerText = i + 1;
             n.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
             document.getElementById('wheelO').appendChild(n);
         }
 
-        // Kreye Bouton Radio pou Miltiplikatè yo
+        // Chif Miltiplikatè (Radio Button Luxe)
         for(let i = 0; i < total; i++) {
             let container = document.createElement('div');
             container.className = 'number';
-            
             let radio = document.createElement('div');
-            radio.className = 'radio-node';
-            radio.id = 'radio-' + i;
+            radio.className = 'radio-point';
+            radio.id = 'milt-' + i;
             radio.innerText = i;
             
             let angleRad = (i * deg - 90) * (Math.PI / 180);
-            let x = 72 * Math.cos(angleRad);
-            let y = 72 * Math.sin(angleRad);
+            let x = 75 * Math.cos(angleRad);
+            let y = 75 * Math.sin(angleRad);
             
             container.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
             container.appendChild(radio);
             document.getElementById('wheelI').appendChild(container);
         }
 
-        let rotO = 0; let rotI = 0;
+        let rO = 0; let rI = 0;
 
-        function vireiOS() {
-            // Netwaye ansyen miltiplikatè ki te aktif la
-            document.querySelectorAll('.radio-node').forEach(el => el.classList.remove('active'));
-
+        function vireLuxe() {
+            document.querySelectorAll('.radio-point').forEach(p => p.classList.remove('winner'));
             const resO = Math.floor(Math.random() * total);
             const resI = Math.floor(Math.random() * total);
-            
-            document.getElementById('status').innerText = "Spinning...";
 
-            rotO += 1440 + (360 - (resO * deg));
-            document.getElementById('wheelO').style.transform = `rotate(${rotO}deg)`;
+            document.getElementById('status').innerText = "Mouvement en cours...";
+
+            rO += 2160 + (360 - (resO * deg));
+            document.getElementById('wheelO').style.transform = `rotate(${rO}deg)`;
 
             setTimeout(() => {
-                rotI -= (1440 + (180 + (resI * deg)));
-                document.getElementById('wheelI').style.transform = `rotate(${rotI}deg)`;
+                rI -= (2160 + (180 + (resI * deg)));
+                document.getElementById('wheelI').style.transform = `rotate(${rI}deg)`;
                 
                 setTimeout(() => {
-                    // Limen bouton radio ki genyen an
-                    document.getElementById('radio-' + resI).classList.add('active');
-                    document.getElementById('status').innerHTML = `Win: <b>${resO + 1}</b> • Multiplier: <b>x${resI}</b>`;
-                }, 5000);
-            }, 800);
+                    document.getElementById('milt-' + resI).classList.add('winner');
+                    document.getElementById('status').innerHTML = `Position: ${resO + 1} | Calibre: x${resI}`;
+                }, 6000);
+            }, 500);
         }
     </script>
 </body>
